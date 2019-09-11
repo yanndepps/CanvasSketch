@@ -11,7 +11,7 @@ const sketch = () => {
     // create a list of points
     const points = [];
     // our grid is 5 x 5 
-    const count = 40; //40
+    const count = 80; //40
     for (let x = 0; x < count; x++) {
       for (let y = 0; y < count; y++) {
         // pixel coordinates for each grid points
@@ -41,7 +41,7 @@ const sketch = () => {
   // main return
   return ({ context, width, height }) => {
     // avoid a transparent PNG
-    context.fillStyle = 'white';
+    context.fillStyle = '#333';
     context.fillRect(0, 0, width, height);
 
     // loop through each of our points
@@ -57,10 +57,14 @@ const sketch = () => {
 
       // draw some circles at position
       context.beginPath();
-      context.arc(x, y, 5, 0, Math.PI*2, false);
-      context.strokeStyle = 'black';
-      context.lineWidth = 3;
-      context.stroke();
+      context.arc(x, y, 3, 0, Math.PI*2, false);
+      // stroke .. or not
+      // context.strokeStyle = 'white';
+      // context.lineWidth = 3;
+      // context.stroke();
+      // fill .. or not
+      context.fillStyle = 'white';
+      context.fill();
     });
   };
 };
