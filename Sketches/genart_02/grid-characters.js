@@ -7,7 +7,7 @@ const settings = {
   dimensions: [ 2048, 2048 ]
 };
 
-const sketch = () => {
+const sketch = async () => {
   // choose a random palette and a random number of colors from 1 to 5
   // const colorCount = 3;
   // const palette = random.pick(palettes).slice(0, colorCount);
@@ -17,25 +17,31 @@ const sketch = () => {
   const palette = random.shuffle(random.pick(palettes))
                         .slice(0, colorCount);
 
+  const characters = '←↑→↓AB'.split('');
+  // const characters = '←↑→↓'.split('');
+  const background = ['hsl(0, 0%, 96%)'];
+
   const createGrid = () => {
     // create a list of points
     const points = [];
-    const count = 30; 
+    const count = 10; 
     for (let x = 0; x < count; x++) {
       for (let y = 0; y < count; y++) {
         // pixel coordinates for each grid points
         const u = count <= 1 ? 0.5 : x / ( count - 1 );
         const v = count <= 1 ? 0.5 : y / ( count - 1 );
-        // create radius and pass in our u, v coordinates (those are already between 0 and 1)
-        // radius can't hold negative values : wrap in abs
-        // multiply by a small amount, we want to stay in very small numbers
-        const radius = Math.abs( random.noise2D(u, v) ) * 0.25;
+        const character = random.pick(characters);
+        const r = /[OP]/i.test(character) ? 25 : 50;
+        const e = /[OP]/i.test(character) ? 10 : 20;
+        // const radius = Math.abs( random.noise2D(u, v) ) * 0.25;
         points.push({
           // pick a random color from our single palette
           color: random.pick(palette), 
-          radius, 
+          radius: Math.abs(r + e * random.gaussian()),
+          // radius,
           position: [u, v],
-          rotation: random.noise2D(u, v) 
+          rotation: random.noise2D(u, v),
+          character
         });
       }
     }
@@ -46,11 +52,25 @@ const sketch = () => {
   // remove for different results each time
   // random.setSeed(303);
   const points = createGrid().filter(() => random.value() > 0.5);
-  const margin = 400;
+
+  // load fonts using browser's "FontFace" API to load fonts from javascript
+  // this ensures the font is renderable before first drawing to the canvas
+  const fontUrl = 'assets/fonts/SpaceGrotesk-Medium.woff';
+  const font = new window.FontFace(
+    'SpaceGrotesk-Medium',
+    `url(${fontUrl})`
+  );
+
+  // async/await : wait for the font to load
+  await font.load();
+  // add the loaded font to the document
+  document.fonts.add(font);
 
   // main return / render function 
   return ({ context, width, height }) => {
-    context.fillStyle = 'white';
+    const margin = width * 0.175;
+
+    context.fillStyle = background;
     context.fillRect(0, 0, width, height);
 
     points.forEach(data => {
@@ -59,7 +79,8 @@ const sketch = () => {
         color,
         position,
         radius,
-        rotation
+        rotation,
+        character
       } = data;
 
       const [u, v] = position;
@@ -68,16 +89,14 @@ const sketch = () => {
       const y = lerp(margin, height - margin, v); 
 
       // draw text items or unicodes 
-      // context.beginPath();
-      // context.arc(x, y, radius * width, 0, Math.PI*2, false);
-      // context.fillStyle = color;
-      // context.fill();
       context.save();
       context.fillStyle = color;
-      context.font = `${radius * width}px "Arial"`;
+      context.font = `${radius * width}px "SpaceGrotesk-Medium"`;
       context.translate(x, y);
       context.rotate(rotation);
-      context.fillText("=", 0, 0);
+      context.textAlign = 'center';
+      context.textBaseline = 'middle';
+      context.fillText(character, 0, 0);
       context.restore();
     });
   };
