@@ -14,6 +14,7 @@ const settings = {
   // Frame it
   dimensions: [512, 512],
   fps: 24,
+  playbackRate: 'throttle',
   duration: 4,
   // Make the loop animated
   animate: true,
@@ -40,8 +41,11 @@ const sketch = ({ context }) => {
   for (let i = 0; i < 40; i++) {
     const mesh = new THREE.Mesh(
       box,
-      new THREE.MeshStandardMaterial({
+      new THREE.MeshPhysicalMaterial({
         color: random.pick(palette), 
+        metalness: 0,
+        roughness: 1,
+        flatShading: true
       })
     );
     // set a random position for each of these cubes
@@ -67,11 +71,11 @@ const sketch = ({ context }) => {
   // lights
   scene.add(new THREE.AmbientLight('hsl(0, 0%, 40%)'));
   const light = new THREE.DirectionalLight('white', 1);
+  light.position.set(1, 2, 1);
   scene.add(light);
-  light.position.set(0, 0, 4);
 
   // bezier easing function
-  const easeFn = BezierEasing(0, 1.2, 1, -0.71);
+  const easeFn = BezierEasing(.17,.67,.83,.67);
 
   // draw each frame
   return {
@@ -83,7 +87,7 @@ const sketch = ({ context }) => {
       const aspect = viewportWidth / viewportHeight;
 
       // Ortho zoom
-      const zoom = 2.0;
+      const zoom = 2.25;
 
       // Bounds
       camera.left = -zoom * aspect;
