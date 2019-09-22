@@ -41,6 +41,14 @@ const sketch = ({ context }) => {
       new THREE.MeshStandardMaterial({
         color: random.pick(palette), 
       })
+      // new THREE.ShaderMaterial({
+      //   fragmentShader: `
+      //     void main () {
+      //       gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+      //     }
+      //   `,
+      //   color: random.pick(palette)
+      // })
     );
     // set a random position for each of these cubes
     mesh.position.set(

@@ -11,29 +11,27 @@ const settings = {
 };
 
 // Your glsl code
-const frag = glsl(/* glsl */`
+const frag = glsl(`
   precision highp float;
 
   uniform float time;
   uniform float aspect;
   varying vec2 vUv;
 
+  #pragma glslify: noise = require('glsl-noise/simplex/3d');
+  #pragma glslify: hsl2rgb = require('glsl-hsl2rgb');
+
   void main () {
-    // mix (lerp) two colors
-    vec3 col_a = vec3(1.0, 0.5, 1.0);
-    vec3 col_b = vec3(1.0, 0.6, 0.4);
-    // get a vector from current UV to (0.5, 0.5)
     vec2 center = vUv - 0.5;
-    // fix for current aspect ratio
     center.x *= aspect;
-    // get length of the vector (radius of polar coordinate)
     float dist = length(center);
-    // create a "mask" circle
-    float mask = smoothstep(0.2025, 0.2, dist);
-    // our color(s)
-    // vec3 color = 0.5 + 0.5 * cos(time + vUv.xyx + vec3(0.0, 2.0, 4.0));
-    vec3 color = mix(col_a, col_b, vUv.y + vUv.x * sin(time));
-    // draw our pixels
+    float mask = smoothstep(0.25, 0.245, dist);
+    float n = noise(vec3(center * 0.5, time * 0.25));
+    vec3 color = hsl2rgb(
+       0.8 + n * 0.13,
+       0.5,
+       0.5
+    );
     gl_FragColor = vec4(color, mask);
   }
 `);
