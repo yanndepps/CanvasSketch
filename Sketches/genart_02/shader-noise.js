@@ -4,8 +4,12 @@ const glsl = require('glslify');
 
 // Setup our sketch
 const settings = {
-  dimensions: [ 2048, 2048 ],
-  exportPixelRatio: 2,
+  // dimensions: [ 2048, 2048 ],
+  // exportPixelRatio: 2,
+  dimensions: [ 512, 512 ],
+  // pixelsPerInch: 300,
+  // duration: 4,
+  // fps: 24,
   context: 'webgl',
   animate: true
 };
@@ -26,11 +30,11 @@ const frag = glsl(`
     center.x *= aspect;
     float dist = length(center);
     float mask = smoothstep(0.25, 0.245, dist);
-    float n = noise(vec3(center * 0.5, time * 0.25));
+    float n = noise(vec3(center * 1.25, time * 0.25));
     vec3 color = hsl2rgb(
-       0.8 + n * 0.13,
+       0.176 + n * 0.13,
        0.5,
-       0.5
+       0.5 + n * 0.15
     );
     gl_FragColor = vec4(color, mask);
   }
