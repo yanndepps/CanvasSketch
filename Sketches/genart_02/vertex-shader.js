@@ -12,12 +12,10 @@ global.THREE = require('three');
 require('three/examples/js/controls/OrbitControls');
 
 const settings = {
-  // Frame it
   dimensions: [512, 512],
   fps: 24,
   playbackRate: 'throttle',
   duration: 4,
-  // Make the loop animated
   animate: true,
   // Get a WebGL canvas rather than 2D
   context: 'webgl',
@@ -48,6 +46,7 @@ const sketch = ({ context }) => {
     uniform vec3 color;
 
     void main() {
+      // gl_FragColor = vec4(vec3(color * vUv.x), 1.0);
       gl_FragColor = vec4(vec3(color), 1.0);
     }
 `;
@@ -61,16 +60,22 @@ const sketch = ({ context }) => {
     void main() {
       vUv = uv;
       vec3 pos = position.xyz;
-      pos += normal * noise(vec4(position.xyz, time)) * 2.5; 
+      // vec3 transformed = position.xyz;
+      // float offset = 0.0;
+      // offset += 0.5 * (noise(vec4(normal.xyz * 1.0, time * 0.25)) * 0.5 + 0.5);
+      // transformed += normal * offset;
+      pos += normal * noise(vec4(position.xyz, time)) * 8.25; 
       gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
     }
 `);
 
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 30; i++) {
     const mesh = new THREE.Mesh(
       // box,
       geometry,
       new THREE.ShaderMaterial({
+        flatShading: true,
+        side: THREE.DoubleSide,
         fragmentShader,
         vertexShader,
         uniforms: {
@@ -106,7 +111,7 @@ const sketch = ({ context }) => {
   scene.add(light);
 
   // bezier easing function
-  const easeFn = BezierEasing(.17,.67,.83,.67);
+  const easeFn = BezierEasing(0,0,1,1);
 
   // draw each frame
   return {
@@ -140,7 +145,7 @@ const sketch = ({ context }) => {
     // Update & render your scene here
     render ({ playhead, time }) {
       const t = Math.sin( playhead * Math.PI );
-      scene.rotation.z = easeFn(t); 
+      scene.rotation.x = easeFn(t); 
       meshes.forEach(mesh => {
         mesh.material.uniforms.time.value = time;
         mesh.rotation.z = 0.1 * time;
