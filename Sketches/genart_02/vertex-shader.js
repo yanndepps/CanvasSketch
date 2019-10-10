@@ -41,7 +41,7 @@ const sketch = ({ context }) => {
   const meshes = [];
   const palette = random.pick(palettes);
 
-  const fragmentShader = `
+  const fragmentShader = /* glsl */`
     varying vec2 vUv;
     uniform vec3 color;
 
@@ -51,7 +51,7 @@ const sketch = ({ context }) => {
     }
 `;
 
-  const vertexShader = glslify(`
+  const vertexShader = glslify(/* glsl */`
     varying vec2 vUv;
     uniform float time;
 
