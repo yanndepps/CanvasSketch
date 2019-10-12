@@ -24,7 +24,7 @@ canvasSketch(() => {
   // ...
   // 
   // return a renderer, which is like p5 'draw' function
-  return ({ playhead, width, height }) => {
+  return ({ time, width, height }) => {
     // a trick to create motion blur :
     // instead of clearing each frame with pure black,
     // we use black with (N/255)% opacity
@@ -42,7 +42,7 @@ canvasSketch(() => {
     const speed = 0.25;
 
     // scale by 2PI : a full arc/circle
-    const angle = playhead * PI * 2.0 * speed;
+    const angle = time * PI * 2.0 * speed;
 
     // the center of the screen
     const cx = width / 2;
