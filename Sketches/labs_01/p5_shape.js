@@ -1,3 +1,7 @@
+/*
+  Basic example of shape & stroke
+*/
+
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();

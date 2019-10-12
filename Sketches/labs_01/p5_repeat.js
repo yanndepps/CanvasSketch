@@ -1,3 +1,7 @@
+/*
+  Repeating shapes with a for loop and linearly spacing them
+*/
+
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();

@@ -1,3 +1,7 @@
+/*
+  Using transforms & blen modes
+*/
+
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();

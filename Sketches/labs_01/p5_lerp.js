@@ -1,3 +1,7 @@
+/*
+  Using linear interpolation (lerp) for animation
+*/
+
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();

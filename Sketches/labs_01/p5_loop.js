@@ -1,3 +1,7 @@
+/*
+  Creating a seamless loop with a fixed duration
+*/
+
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
