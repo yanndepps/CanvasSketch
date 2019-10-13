@@ -19,14 +19,13 @@ const settings = {
   }
 };
 
-let hue;
 const rings = [];
 
 canvasSketch(() => {
   // SETUP
   // ...
-  hue = random(0, 360);
   const count = floor(random(10, 20));
+
   for (let i = 0; i < count; i++) {
     const diameter = ((i + 1) / count);
     const arcLength = random(PI * 0.05, PI * 2);
