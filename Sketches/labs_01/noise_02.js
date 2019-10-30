@@ -12,7 +12,7 @@ Random.setSeed(defaultSeed || Random.getRandomSeed());
 console.log("Random Seed:", Random.getSeed());
 
 const settings = {
-  hotkeys: false,
+  hotkeys: true,
   suffix: Random.getSeed(),
   animate: true,
   dimensions: [2048, 2048]
