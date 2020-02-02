@@ -1,4 +1,4 @@
-// Gravity updated with import of the simplex3d noise 
+// Gravity updated with import of simplex3d 
 // @ts-nocheck
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
@@ -8,9 +8,6 @@ const glslify = require('glslify');
 
 const settings = {
   dimensions: [800, 800],
-  // fps: 24,
-  // playbackRate: 'throttle',
-  // duration: 8,
   animate: true,
   context: "webgl",
   attributes: {
@@ -96,6 +93,7 @@ const sketch = ({ context }) => {
     }
   `);
 
+  // fragment shader
   const fragmentShader = /* glsl */ `
     varying vec3 vPosition;
     varying vec2 vUv;
@@ -175,11 +173,9 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render({ time, playhead }) {
+    render({ time }) {
       material.uniforms.time.value = 3 * time; 
-      // material.uniforms.time.value = playhead * Math.PI * 2; 
       particleMat.uniforms.time.value = 3 * time; 
-      // particleMat.uniforms.time.value = playhead * Math.PI * 2;
       points.rotation.y = time/5.;
       controls.update();
       renderer.render(scene, camera);
