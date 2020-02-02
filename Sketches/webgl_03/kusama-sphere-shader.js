@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Ensure ThreeJS is in global scope for the 'examples/'
 global.THREE = require("three");
 
