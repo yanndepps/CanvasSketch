@@ -51,7 +51,7 @@ const sketch = ({ context }) => {
     }
 `;
 
-  const vertexShader = glslify(`
+  const vertexShader = glslify(/* glsl */ `
     varying vec2 vUv;
     uniform float time;
 
