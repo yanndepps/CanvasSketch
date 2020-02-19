@@ -1,6 +1,7 @@
+// @ts-nocheck
 /*
-* Animating grid of line segments with sin()
-*/
+ * Animating grid of line segments with sin()
+ */
 
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
@@ -8,7 +9,7 @@ new p5();
 
 const settings = {
   p5: true,
-  dimensions: [ 512, 512 ],
+  dimensions: [512, 512],
   animate: true,
   loop: true,
   fps: 24,
@@ -33,7 +34,7 @@ canvasSketch(() => {
     stroke(255);
     strokeCap(ROUND);
     strokeWeight(dim * 0.015);
-    
+
     const gridSize = 10;
     const margin = dim * 0.1;
     const innerWidth = width - margin * 2;
