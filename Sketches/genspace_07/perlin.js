@@ -5,7 +5,9 @@ new p5();
 
 const settings = {
   p5: true,
-  dimensions: [900, 900],
+  dimensions: 'letter',
+  orientation: 'landscape',
+  pixelsPerInch: 300,
   animate: true,
   context: '2d',
   attributes: {
@@ -19,9 +21,6 @@ function display(pos, vel) {
 }
 
 function update(t, pos, vel, seed) {
-  // const w = width;
-  // const h = height;
-
   pos.x = mod(pos.x + vel.x, width);
   pos.y = mod(pos.y + vel.y, height);
 
@@ -33,7 +32,7 @@ function update(t, pos, vel, seed) {
 }
 
 function flow(pos) {
-  let r = noise(pos.x / 100, pos.y / 100) * TWO_PI;
+  let r = noise(pos.x / 600, pos.y / 300) * TWO_PI;
   return p5.Vector.fromAngle(r).mult(2);
 }
 
@@ -42,10 +41,8 @@ function mod(x, n) {
 }
 
 // ---
-// const w = width;
-// const h = height;
 let t = 0;
-let n = 3200; // 800
+let n = 30000; // 800
 let particles = [];
 
 canvasSketch(() => {
@@ -62,7 +59,10 @@ canvasSketch(() => {
   }
 
   // DRAW
-  return () => {
+  return ({ width, height }) => {
+    const dim = Math.min(width, height);
+    //console.log(dim);
+    strokeWeight(dim * 0.00175);
     particles.forEach(function(prtcl) {
       display(prtcl.pos, prtcl.vel);
       update(t, prtcl.pos, prtcl.vel, prtcl.seed);
