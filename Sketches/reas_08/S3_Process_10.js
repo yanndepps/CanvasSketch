@@ -20,10 +20,11 @@ new p5();
 
 const settings = {
   p5: true,
-  dimensions: [800, 800],
+  dimensions: 'letter',
+  orientation: 'landscape',
+  pixelPerInch: 300,
   animate: true,
   context: '2d',
-  duration: 6,
   attributes: {
     antialias: true
   }
@@ -35,7 +36,7 @@ window.preload = () => {
 };
 
 // globals
-const numCircle = 100;
+const numCircle = 10; // 100
 const circles = [];
 
 // canvas-sketch
@@ -44,7 +45,7 @@ canvasSketch(() => {
   for (let i = 0; i < numCircle; i++) {
     const x = random(width);
     const y = random(height);
-    const r = random(10, 60);
+    const r = random(50, 200); // 10 -> 60
     //const r = i % 2 === 0 ? 0.5 : 0.25;
     const xspeed = random(-0.25, 0.25);
     const yspeed = random(-0.25, 0.25);
@@ -60,6 +61,8 @@ canvasSketch(() => {
   // DRAW
   // return a renderer to 'draw the p5.js content'
   return ({ playhead, width, height }) => {
+    const dim = Math.min(width, height);
+    strokeWeight(dim * 0.00175);
     for (let i = 0; i < circles.length; i++) {
       circles[i].update();
     }
@@ -80,13 +83,13 @@ class Circle {
     this.ysp = pysp;
     this.id = pid;
 
-    this.update = function() {
+    this.update = function () {
       for (let i = this.id + 1; i < numCircle; i++) {
         intersect(circles[this.id], circles[i]);
       }
     };
 
-    this.move = function() {
+    this.move = function () {
       this.x += this.sp;
       this.y += this.ysp;
       if (this.sp > 0) {
@@ -131,7 +134,7 @@ function intersect(cA, cB) {
   const pbX = x2 - (h * (cB.y - cA.y)) / d;
   const pbY = y2 + (h * (cB.x - cA.x)) / d;
 
-  stroke(0, 12);
-  strokeWeight(0.25);
+  stroke(0, 5); // 10
+  // strokeWeight(sDim);
   line(paX, paY, pbX, pbY);
 }
