@@ -1,5 +1,5 @@
 // @ts-nocheck
-// 14:30
+// 20:00
 // Ensure ThreeJS is in global scope for the 'examples/'
 global.THREE = require("three");
 
@@ -15,6 +15,26 @@ const settings = {
   attributes: {
     antialias: true
   }
+};
+
+const planeFunction = (u, v, target) => {
+
+  let x = u - 0.5;
+  let y = v - 0.5;
+  let z = 0;
+
+  target.set(x, y, z);
+};
+
+const sphereFunction = (u, v, target) => {
+  u *= Math.PI * 2;
+  v *= Math.PI;
+
+  let x = (0.5 + 0.5 * Math.sin(u * 10.)) * Math.sin(u) * Math.sin(v);
+  let y = (0.5 + 0.5 * Math.sin(u * 10.)) * Math.sin(u) * Math.cos(v);
+  let z = (0.5 + 0.5 * Math.sin(u * 10.)) * Math.cos(u);
+
+  target.set(x, y, z);
 };
 
 const sketch = ({ context }) => {
@@ -37,10 +57,12 @@ const sketch = ({ context }) => {
   const scene = new THREE.Scene();
 
   // Setup a geometry
-  const geometry = new THREE.PlaneGeometry(1, 1, 10, 10);
-  // console.log(geometry);
+  //const geometry = new THREE.PlaneGeometry(1, 1, 10, 10);
 
-  // Shaders 
+  const geometry = new THREE.ParametricBufferGeometry(sphereFunction, 25, 25);
+
+
+
   // vertex shader 
   const vertex = /* glsl */ `
     // ---
@@ -82,6 +104,8 @@ const sketch = ({ context }) => {
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
+
+
   // draw each frame
   return {
     // Handle resize events here
@@ -94,16 +118,14 @@ const sketch = ({ context }) => {
     // Update & render your scene here
     render({ time }) {
       //material.uniforms.time.value = time;
-      geometry.vertices.forEach(vector => {
-        let u = (vector.x + 0.5) * Math.PI * 2;
-        let v = (vector.y + 0.5) * Math.PI;
+      // geometry.vertices.forEach(vector => {
+      //   let u = (vector.x + 0.5) * Math.PI * 2;
+      //   let v = (vector.y + 0.5) * Math.PI;
 
-        vector.x = Math.sin(u) * Math.sin(v);
-        vector.y = Math.sin(u) * Math.cos(v);
-        vector.z = Math.cos(u);
-        //v.z = 0.5 * Math.sin(v.y * 50);
-      });
-      geometry.verticesNeedsUpdate = true;
+
+      //   //v.z = 0.5 * Math.sin(v.y * 50);
+      // });
+      // geometry.verticesNeedsUpdate = true;
 
       controls.update();
       renderer.render(scene, camera);
@@ -114,6 +136,8 @@ const sketch = ({ context }) => {
       renderer.dispose();
     }
   };
+
 };
 
 canvasSketch(sketch, settings);
+
