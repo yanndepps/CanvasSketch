@@ -9,7 +9,7 @@ const canvasSketch = require("canvas-sketch");
 const settings = {
   dimensions: [800, 800],   // 1000/1920
   animate: true,
-  duration: 4,
+  duration: 10,
   context: "webgl",
   attributes: {
     antialias: true
@@ -27,7 +27,7 @@ const sketch = ({ context }) => {
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
-  camera.position.set(0, 0, -8);
+  camera.position.set(0, 0, -1);
   camera.lookAt(new THREE.Vector3());
 
   // Setup camera controller
@@ -41,22 +41,28 @@ const sketch = ({ context }) => {
   // const geometry = new THREE.CylinderGeometry(1, 1, 19, 8);
 
   // Extruded Shape
-
+  let n = 1000;
   const shape = new THREE.Shape();
-  shape.moveTo(0.5, 0.5);
-  shape.lineTo(0.5, -0.5);
-  shape.lineTo(-0.5, -0.5);
-  shape.lineTo(-0.5, 0.5);
-  shape.lineTo(0.5, 0.5);
+  shape.moveTo(0.0, 0.2);
+  // shape.lineTo(0.5, -0.5);
+  // shape.lineTo(-0.5, -0.5);
+  // shape.lineTo(-0.5, 0.5);
+  // shape.lineTo(0.5, 0.5);
+
+  for (let i = 0; i <= n; i++) {
+    let theta = 2 * Math.PI * i / n;
+    let r = 0.2 + 0.2 * Math.sin(2 * theta) ** 2;
+    // let r = 0.2 + 0.2 * Math.sin(2 * theta * 2) ** 2;
+    // let r = 0.2 + 0.2 * Math.sin(2 * theta / 2) ** 2;
+    let x = r * Math.sin(theta);
+    let y = r * Math.cos(theta);
+    shape.lineTo(x, y);
+  }
 
   const extrudeSettings = {
-    steps: 2,
-    depth: 16,
-    bevelEnabled: true,
-    bevelThickness: 1,
-    bevelSize: 1,
-    bevelOffset: 0,
-    bevelSegments: 1
+    steps: 150,
+    depth: 40,
+    bevelEnabled: false
   };
 
   const geometry = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings);
@@ -68,14 +74,22 @@ const sketch = ({ context }) => {
     varying vec3 vPosition;
     varying vec3 vNormal;
     uniform float time;
+    uniform float playhead;
     uniform vec3 color;
 
-    void main() {
-      vPosition = position;
-      vNormal = normal;
-      vUv = uv;
+    vec2 rotate(vec2 v, float a) {
+      float s = sin(a);
+      float c = cos(a);
+      mat2 m = mat2(c, -s, s, c);
+      return m * v;
+    }
 
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    void main() {
+      vUv = uv;
+      vPosition = position;
+      vec3 newpos = position;
+      newpos.xy = rotate(newpos.xy, position.z/2.);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(newpos, 1.0);
     }
   `;
 
@@ -85,11 +99,38 @@ const sketch = ({ context }) => {
     varying vec3 vPosition;
     varying vec3 vNormal;
     uniform float time;
+    uniform float playhead;
     uniform vec3 color;
 
     void main() {
-      // vec3 color = (1.0, .0, .0);
-      gl_FragColor = vec4(color, 1.0);
+      vec3 color1 = vec3(0.531, 0.800, 0.742);
+      vec3 color2 = vec3(0.198, 0.256, 0.606);
+      float pi = 3.1415926;
+      float fline = sin(vUv.y*6.*pi);
+      float fline_a = abs(fline);
+      float threshold = 0.005;
+      float k = 0.;
+      float sk = 0.;
+
+      if (fline < 0.) {
+        k = -1.;
+      } else {
+        k = 1.;
+      }
+
+      if (fline_a < threshold) {
+        sk = (threshold - fline_a)/threshold;
+        k = k*(1. - sk) + fline_a * sk;
+      }
+
+      k = (k + 1.)/2.;
+
+      float fade = 12.;
+      float fog = 1. - clamp((vPosition.z - 2. - playhead*6.)/fade, 0., 1.);
+      vec3 finalColor = mix(color1, color2, k);
+      finalColor = mix(vec3(0.), finalColor, fog);
+
+      gl_FragColor = vec4(finalColor, 1.);
     }
   `;
 
@@ -97,9 +138,11 @@ const sketch = ({ context }) => {
   const shdrmaterial = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
-      color: { value: new THREE.Color("tomato") }
+      playhead: { value: 0 }
+      // color: { value: new THREE.Color("tomato") }
     },
     wireframe: false,
+    side: THREE.DoubleSide,
     vertexShader: vertex,
     fragmentShader: fragment
   });
@@ -110,9 +153,10 @@ const sketch = ({ context }) => {
   });
 
   // Setup a mesh with geometry + material
-  const mesh = new THREE.Mesh(geometry, material);
+  const mesh = new THREE.Mesh(geometry, shdrmaterial);
   scene.add(mesh);
   // mesh.rotation.x = Math.PI / 2;
+  mesh.position.z = -1;
 
   // draw each frame
   return {
@@ -124,8 +168,10 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render({ time }) {
-      mesh.rotation.y = time * (10 * Math.PI / 100);
+    render({ time, playhead }) {
+      // mesh.rotation.y = time * (10 * Math.PI / 100);
+      mesh.position.z = -1 - playhead * 6;
+      mesh.material.uniforms.playhead.value = playhead;
       controls.update();
       renderer.render(scene, camera);
     },
