@@ -27,8 +27,6 @@ const sketch = () => {
     // console.log(thickness);
 
     background('#1c1c1c');
-    mover.update();
-    mover.show(thickness);
   };
 };
 
