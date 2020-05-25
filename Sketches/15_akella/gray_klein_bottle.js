@@ -1,12 +1,10 @@
 // @ts-nocheck
-// 42:20
-// Ensure ThreeJS is in global scope for the 'examples/'
 global.THREE = require("three");
-
-// Include any additional ThreeJS examples below
 require("three/examples/js/controls/OrbitControls");
-
 const canvasSketch = require("canvas-sketch");
+
+import fragment from "./utils/s3e16/shaders/fragment.glsl";
+import vertex from "./utils/s3e16/shaders/vertex.glsl";
 
 const settings = {
   dimensions: [800, 800],
@@ -103,49 +101,6 @@ const sketch = ({ context }) => {
   const geometry1 = new THREE.ParametricBufferGeometry(graykleinFunction, 100, 100);
   geometry.setAttribute('position1', new THREE.BufferAttribute(geometry1.attributes.position.array, 3));
 
-
-
-  // vertex shader 
-  const vertex = /* glsl */ `
-    // ---
-    varying vec2 vUv;
-    varying vec3 vPosition;
-    varying vec3 vNormal;
-    attribute vec3 position1;
-    uniform float time;
-
-    void main() {
-      vPosition = position;
-      vNormal = normal;
-      vUv = uv;
-
-      vec3 final = mix(position, position1, 0.5 + 0.5 * sin(time));
-
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(final, 1.0);
-    }
-  `;
-
-  // fragment shader 
-  const fragment = /* glsl */ `
-    varying vec2 vUv;
-    varying vec3 vPosition;
-    varying vec3 vNormal;
-    uniform float time;
-    //uniform vec3 color;
-
-    void main() {
-      float diff = abs(dot(normalize(vec3(1.,1.,1.)), vNormal));
-
-      vec3 a = vec3(0.5, 0.5, 0.5);
-      vec3 b = vec3(0.5, 0.5, 0.5);
-      vec3 c = vec3(2.0, 1.0, 0.0);
-      vec3 d = vec3(0.5, 0.2, 0.25);
-
-      vec3 color = a + b * cos(2. * 3.1415925 * (c * diff + d + time/3.));
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `;
-
   // Setup a material
   const material = new THREE.ShaderMaterial({
     uniforms: {
@@ -160,8 +115,6 @@ const sketch = ({ context }) => {
   // Setup a mesh with geometry + material
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
-
-
 
   // draw each frame
   return {

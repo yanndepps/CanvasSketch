@@ -21,7 +21,7 @@ const sketch = ({ context }) => {
   });
 
   // WebGL background color
-  renderer.setClearColor("#000", 1);
+  renderer.setClearColor("#1d1d1d", 1);
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
@@ -117,7 +117,7 @@ const sketch = ({ context }) => {
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      time: { value: 0}
+      time: { value: 0 }
     },
     wireframe: false,
     vertexShader: vertexShader,
@@ -140,21 +140,21 @@ const sketch = ({ context }) => {
 
   // uniform distribution of points on the sphere, using golden ratio
   let N = 60000;
-  let positions = new Float32Array(N*3);
+  let positions = new Float32Array(N * 3);
   const particleGeo = new THREE.BufferGeometry();
 
-  let inc = Math.PI*(3 - Math.sqrt(5));
-  let offset = 2/N;
+  let inc = Math.PI * (3 - Math.sqrt(5));
+  let offset = 2 / N;
   let rad = 1.7;
 
   for (let i = 0; i < N; i++) {
-    let y = i * offset - 1 + (offset/2);
-    let r = Math.sqrt(1 - y*y);
+    let y = i * offset - 1 + (offset / 2);
+    let r = Math.sqrt(1 - y * y);
     let phi = i * inc;
 
-    positions[3*i] = rad*Math.cos(phi)*r;
-    positions[3*i+1] = rad*y;
-    positions[3*i+2] = rad*Math.sin(phi)*r;
+    positions[3 * i] = rad * Math.cos(phi) * r;
+    positions[3 * i + 1] = rad * y;
+    positions[3 * i + 2] = rad * Math.sin(phi) * r;
   }
 
   // setup points mesh
@@ -174,9 +174,9 @@ const sketch = ({ context }) => {
     },
     // Update & render your scene here
     render({ time }) {
-      material.uniforms.time.value = 3 * time; 
-      particleMat.uniforms.time.value = 3 * time; 
-      points.rotation.y = time/5.;
+      material.uniforms.time.value = 3 * time;
+      particleMat.uniforms.time.value = 3 * time;
+      points.rotation.y = time / 5.;
       controls.update();
       renderer.render(scene, camera);
     },
