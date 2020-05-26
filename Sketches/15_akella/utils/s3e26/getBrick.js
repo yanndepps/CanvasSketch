@@ -1,38 +1,50 @@
 // paused 11.15
 global.THREE = require("three");
 
-let material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-let geo = new THREE.BoxBufferGeometry(1, 1, 1);
+const material = new THREE.MeshLambertMaterial();
+const geo = new THREE.BoxBufferGeometry(1, 1, 1);
 
 function lerp(a, b, t) {
   return a * (1 - t) + b * t;
 }
 
-export function getBrick(index, number) {
+export function getBrick(index, number, space) {
   let detail = 100;
-  let angle = 0;
-  let angle1 = 2 * Math.PI / 10;
+  let angle = index * 2 * Math.PI / number + space;
+  let angle1 = (index + 1) * 2 * Math.PI / number - space;
   let r1 = 1;
-  let r2 = 0.5
+  let r2 = 0.8
+  let dots = [];
 
-  for (let i = 0; i < detail; i++) {
+  const shape = new THREE.Shape();
 
+  for (let i = 0; i <= detail; i++) {
+    dots.push([
+        r2 * Math.sin(lerp(angle, angle1, i/detail)),
+        r2 * Math.cos(lerp(angle, angle1, i/detail))
+      ]);
   }
 
-  let shape = new THREE.Shape();
+   for (let i = 0; i <= detail; i++) {
+    dots.push([
+        r1 * Math.sin(lerp(angle1, angle, i/detail)),
+        r1 * Math.cos(lerp(angle1, angle, i/detail))
+      ]);
+  }
 
-  shape.moveTo(0, 0);
-  shape.lineTo(1, 0);
-  shape.lineTo(2, 1);
-  shape.lineTo(0, 1);
-  shape.lineTo(0, 0);
+  shape.moveTo(dots[0][0], dots[0][1]);
+  dots.forEach(dot => {
+    shape.lineTo(dot[0], dot[1]);
+  });
 
-  let geometry = new THREE.ExtrudeGeometry(shape, {
+  const geometry = new THREE.ExtrudeGeometry(shape, {
     steps: 2,
-    depth: 0.5,
+    depth: 0.1,
     bevelEnabled: false
   });
 
-  let mesh = new THREE.Mesh(geometry, material);
+  geometry.rotateX(Math.PI/2);
+
+  const mesh = new THREE.Mesh(geometry, material);
   return mesh;
 }
