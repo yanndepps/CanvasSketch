@@ -1,4 +1,3 @@
-// paused 11.15
 global.THREE = require("three");
 
 const material = new THREE.MeshLambertMaterial();
@@ -8,12 +7,12 @@ function lerp(a, b, t) {
   return a * (1 - t) + b * t;
 }
 
-export function getBrick(index, number, space) {
+export function getBrick(index, number, space, depth) {
   let detail = 100;
   let angle = index * 2 * Math.PI / number + space;
   let angle1 = (index + 1) * 2 * Math.PI / number - space;
   let r1 = 1;
-  let r2 = 0.8
+  let r2 = 1 - depth; 
   let dots = [];
 
   const shape = new THREE.Shape();
@@ -39,7 +38,7 @@ export function getBrick(index, number, space) {
 
   const geometry = new THREE.ExtrudeGeometry(shape, {
     steps: 2,
-    depth: 0.1,
+    depth: depth,
     bevelEnabled: false
   });
 
