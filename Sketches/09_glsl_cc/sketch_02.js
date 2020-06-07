@@ -1,11 +1,14 @@
+// The vec class
+
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
 const canvasSketch = require("canvas-sketch");
 //---
 // import fragment from './shaders/fragment_01.glsl';
 // import vertex from './shaders/vertex_01.glsl';
-const fragment = require("./utils/shaders/S_02/glsl_01/fragment.glsl");
-const vertex = require("./utils/shaders/S_02/glsl_01/vertex.glsl");
+//---
+const fragment = require("./utils/shaders/S_02/glsl_02/fragment.glsl");
+const vertex = require("./utils/shaders/S_02/glsl_02/vertex.glsl");
 
 const settings = {
   dimensions: [800, 800],
@@ -23,7 +26,7 @@ const sketch = ({ context }) => {
   });
 
   // WebGL background color
-  renderer.setClearColor("#000", 1);
+  renderer.setClearColor("#1c1c1c", 1);
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
@@ -44,7 +47,7 @@ const sketch = ({ context }) => {
     uniforms: {
       time: { value: 0 },
       playhead: { value: 0 },
-
+      u_color: { value: new THREE.Color(0xfffd01) }
     },
     wireframe: false,
     side: THREE.DoubleSide,
@@ -84,12 +87,6 @@ const sketch = ({ context }) => {
 canvasSketch(sketch, settings);
 
 // ---------------------------- NOTES -------------------------------------- //
-// 1. we need a vertex shader and a fragment shader and each of these
-// must have a main function.
-// 2. the vertex shader main function must set the value of gl_Position
-// and it uses the projectionMatrix, the modelViewMatrix and the position
-// of the vertex to do this.
-// 3. the fragment shader main function must set the value of gl_FragColor
-// to a rgba format value.
-// 4. each channel of a rgba format color takes a value between 0.0 and 1.0.
+// 1. Jumbling the elements of a vec variable is called swizzling :
+// color.grba -> swaps the red and green channels.
 // ------------------------------------------------------------------------- //

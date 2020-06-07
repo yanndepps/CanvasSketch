@@ -1,15 +1,19 @@
+// Changing color with the mouse 
+
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
 const canvasSketch = require("canvas-sketch");
 //---
 // import fragment from './shaders/fragment_01.glsl';
 // import vertex from './shaders/vertex_01.glsl';
-const fragment = require("./utils/shaders/S_02/glsl_01/fragment.glsl");
-const vertex = require("./utils/shaders/S_02/glsl_01/vertex.glsl");
+//---
+const fragment = require("./utils/shaders/S_02/glsl_03/fragment.glsl");
+const vertex = require("./utils/shaders/S_02/glsl_03/vertex.glsl");
 
 const settings = {
   dimensions: [800, 800],
   animate: true,
+  // duration: 9,
   context: "webgl",
   attributes: {
     antialias: true
@@ -22,8 +26,16 @@ const sketch = ({ context }) => {
     canvas: context.canvas
   });
 
+  // mouse event listener
+  function move(evt){
+    uniforms.u_mouse.value.x = (evt.touches) ? evt.touches[0].clientX : evt.clientX;
+    uniforms.u_mouse.value.y = (evt.touches) ? evt.touches[0].clientY : evt.clientY;
+  }
+
+  window.addEventListener('mousemove', move);
+
   // WebGL background color
-  renderer.setClearColor("#000", 1);
+  renderer.setClearColor("#1c1c1c", 1);
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
@@ -37,24 +49,30 @@ const sketch = ({ context }) => {
   const scene = new THREE.Scene();
 
   // Setup a geometry
-  const geometry = new THREE.SphereGeometry(1, 32, 16);
+  const geometry = new THREE.PlaneGeometry(2, 2);
+
+  // Uniforms
+  const uniforms = { 
+    time: { value: 0.0 },
+    playhead: { value: 0.0 },
+    u_color: { value: new THREE.Color(0xfffd01) },
+    u_resolution: { value: { x: 0.0, y: 0.0 } },
+    u_mouse: { value: {x: 0.0, y: 0.0} }
+  }
 
   // setup a shader material
-  const shdrMaterial = new THREE.ShaderMaterial({
-    uniforms: {
-      time: { value: 0 },
-      playhead: { value: 0 },
-
-    },
-    wireframe: false,
-    side: THREE.DoubleSide,
+  const material = new THREE.ShaderMaterial({
+    uniforms: uniforms, 
     vertexShader: vertex,
-    fragmentShader: fragment
+    fragmentShader: fragment,
+    wireframe: false,
+    side: THREE.DoubleSide
   });
 
   // Setup a mesh with geometry + material
-  const mesh = new THREE.Mesh(geometry, shdrMaterial);
+  const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
+
 
   // draw each frame
   return {
@@ -66,10 +84,14 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render({ time, playhead }) {
+    render({ time, playhead, width, height }) {
       // mesh.rotation.y = time * (10 * Math.PI / 100);
-      // mesh.position.z = -1 - playhead * 6;
+      // mesh.rotation.y = playhead * Math.PI*2;
       // mesh.material.uniforms.playhead.value = playhead;
+      // mesh.material.uniforms.time.value = time * (10 * Math.PI /100);
+      uniforms.u_resolution.value.x = width;
+      uniforms.u_resolution.value.y = height;
+      // ---
       controls.update();
       renderer.render(scene, camera);
     },
@@ -77,6 +99,7 @@ const sketch = ({ context }) => {
     unload() {
       controls.dispose();
       renderer.dispose();
+      window.removeEventListener('mousemove', move);
     }
   };
 };
@@ -84,12 +107,7 @@ const sketch = ({ context }) => {
 canvasSketch(sketch, settings);
 
 // ---------------------------- NOTES -------------------------------------- //
-// 1. we need a vertex shader and a fragment shader and each of these
-// must have a main function.
-// 2. the vertex shader main function must set the value of gl_Position
-// and it uses the projectionMatrix, the modelViewMatrix and the position
-// of the vertex to do this.
-// 3. the fragment shader main function must set the value of gl_FragColor
-// to a rgba format value.
-// 4. each channel of a rgba format color takes a value between 0.0 and 1.0.
+// 1. Uniforms pass data between the control program and the shaders.
+// 2. Each uniform will store a common value for each vertex & pixel.
+// 3. u_mouse stores the x, y location of the mouse.
 // ------------------------------------------------------------------------- //
