@@ -4,20 +4,23 @@ new p5()
 
 const settings = {
   p5: true,
-  dimensions: [ 800, 800 ], 
-  // dimensions: 'A5',
-  // orientation: 'landscape',
-  // pixelsPerInch: 300,
+  name: 'paperloops',
+  prefix: 'artwork',
+  suffix: 'meme',
+  // dimensions: [ 800, 800 ], 
+  dimensions: 'A5',
+  orientation: 'landscape',
+  pixelsPerInch: 300,
+  // units: 'in',
   animate: true,
-  duration: 8,
   context: '2d'
 };
 
 let offset = 100;
-let flow_cell_size = 5;
+let flow_cell_size = 7;
 let noise_size = 0.0045;
 let noise_radius = 0.0045;
-let th = 0.00250;
+let th = 0.00115;
 let flow_width;
 let flow_height;
 let noise_grid = [];
@@ -45,15 +48,16 @@ canvasSketch(() => {
   strokeWeight(dim);
   console.log(dim);
   // console.log(width);
+  // console.log(flow_width);
   // ---
   // Attach events to window to receive them
   window.mouseClicked = () => {
-    console.log('Mouse clicked');
+    // console.log('Mouse clicked');
   };
   // ---
 
   // Return a renderer to 'draw' the p5.js content
-  return ({ playhead, time, width, height }) => {
+  return ({ playhead, width, height }) => {
     // Draw with p5.js things
     translate(-offset, -offset);
     //display_flow();
@@ -97,7 +101,6 @@ canvasSketch(() => {
         .normalize()
         .mult(1.5);
 
-      //prt.acc = p5.Vector.fromAngle(p.noise(prt.seed * 10, tick) * p.TAU).mult(0.01);
       prt.acc = createVector(0, 0);
       prt.acc.add(flow).mult(10);
     }
