@@ -1,4 +1,4 @@
-// Changing color with the mouse 
+// blending colors
 
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
@@ -7,13 +7,13 @@ const canvasSketch = require("canvas-sketch");
 // import fragment from './shaders/fragment_01.glsl';
 // import vertex from './shaders/vertex_01.glsl';
 //---
-const fragment = require("./utils/shaders/S_02/glsl_03/fragment.glsl");
-const vertex = require("./utils/shaders/S_02/glsl_03/vertex.glsl");
+const fragment = require("../utils/shaders/S_02/glsl_05/fragment.glsl");
+const vertex = require("../utils/shaders/S_02/glsl_05/vertex.glsl");
 
 const settings = {
   dimensions: [800, 800],
   animate: true,
-  // duration: 9,
+  // duration: 2,
   context: "webgl",
   attributes: {
     antialias: true
@@ -91,6 +91,7 @@ const sketch = ({ context }) => {
       // mesh.material.uniforms.time.value = time * (10 * Math.PI /100);
       uniforms.u_resolution.value.x = width;
       uniforms.u_resolution.value.y = height;
+      // uniforms.time.value = time;
       // ---
       controls.update();
       renderer.render(scene, camera);
@@ -107,7 +108,27 @@ const sketch = ({ context }) => {
 canvasSketch(sketch, settings);
 
 // ---------------------------- NOTES -------------------------------------- //
-// 1. Uniforms pass data between the control program and the shaders.
-// 2. Each uniform will store a common value for each vertex & pixel.
-// 3. u_mouse stores the x, y location of the mouse.
+// 1. gl_FragCoord is a vec4 type which provides the coordinates of 
+//    the current pixel.
+// 2. it has x, y, z and w values.
+// 3. remember that u_resolution provides the pixels of the window.
+// ------------------------------------------------------------------------- //
+// 1. the mix method :
+// 2. takes 3 parameters : mix(x, y, a)
+// 3. mix(x, y, 0.0) = x
+// 4. mix(x, y, 1.0) = y
+// 5. x * (1-a) + y * a -> linear interpolation
+// 6. x and y can be floats, vec2, vec3 or vec4 values but :
+// 7. x, y and return type must be the same.
+// ------------------------------------------------------------------------- //
+// 1. mix(x, y, a)
+// 2. x = vec3(1.0, 0.0, 0.0) -> red 
+// 3. y = vec3(0.0, 0.0, 1.0) -> blue
+// 4. a = uv.y -> value between 0.0 and 1.0 
+// ------------------------------------------------------------------------- //
+// 1. Suppose a with a value of 0.25 :
+// 2. mix(x,y,a) = x * (1-a) + y * a
+// 3. x * (1.0 - 0.25) + y * 0.25 = x * 0.75 + y * 0.25
+// 4. vec3(1.0, 0.0, 0.0) * 0.75 + vec3(0.0, 0.0, 1.0) * 0.25
+// 5. vec3(0.75, 0.0, 0.0) + vec3(0.0, 0.0, 0.25) = vec3(0.75, 0.0, 0.25)
 // ------------------------------------------------------------------------- //

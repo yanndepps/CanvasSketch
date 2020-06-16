@@ -7,8 +7,8 @@ const canvasSketch = require("canvas-sketch");
 // import fragment from './shaders/fragment_01.glsl';
 // import vertex from './shaders/vertex_01.glsl';
 //---
-const fragment = require("./utils/shaders/S_02/glsl_02/fragment.glsl");
-const vertex = require("./utils/shaders/S_02/glsl_02/vertex.glsl");
+const fragment = require("../utils/shaders/S_02/glsl_02/fragment.glsl");
+const vertex = require("../utils/shaders/S_02/glsl_02/vertex.glsl");
 
 const settings = {
   dimensions: [800, 800],
