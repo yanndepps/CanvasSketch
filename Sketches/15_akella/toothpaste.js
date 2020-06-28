@@ -1,8 +1,9 @@
-// 21.48
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
 let palettes = require("nice-color-palettes");
-let myColors = palettes[Math.floor(Math.random() * 100)];
+let rand = Math.floor(Math.random() * 100);
+rand = 24;
+let myColors = palettes[rand];
 let colors = myColors.map(color => new THREE.Color(color));
 // console.log(colors);
 const fragment = require("./utils/s3e30/shaders/fragment.glsl");
@@ -12,14 +13,14 @@ const canvasSketch = require("canvas-sketch");
 const settings = {
   dimensions: [ 800, 800 ],
   animate: true,
-  // duration: 4,
+  duration: 2,
   context: "webgl",
   attributes: {
     antialias: true
   }
 };
 
-const sketch = ({ context }) => {
+const sketch = ({ context, width, height }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
     canvas: context.canvas
@@ -28,8 +29,13 @@ const sketch = ({ context }) => {
   // WebGL background color
   renderer.setClearColor("#000", 1);
 
+  // ortho camera
+  const frustumSize = 3;
+  const aspect = width / height;
+  const camera = new THREE.OrthographicCamera(frustumSize*aspect/-2, frustumSize*aspect/2, frustumSize/2, frustumSize/-2, -1000, 1000);
+
   // Setup a camera
-  const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
+  // const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
   camera.position.set(0, 0, -4);
   camera.lookAt(new THREE.Vector3());
 
@@ -45,14 +51,17 @@ const sketch = ({ context }) => {
 
   for (let i = 0; i < number; i++) {
     let p = i/number;
-    let x = p*Math.cos(p*40);
-    let y = p*4;
-    let z = p*Math.sin(p*40);
+    // let x = p*Math.sin(p*50);
+    let x = p*Math.sin(p*60) + 0. * Math.sin(p*50);
+    // let y = p*4;
+    let y = p*4 + 0.1 * Math.sin(p*40);
+    // let z = p*Math.cos(p*50);
+    let z = p*Math.cos(p*60) + 0. * Math.sin(p*50);
     points.push(new THREE.Vector3(x, y, z));
   }
 
   let curve = new THREE.CatmullRomCurve3(points);
-  let geometry = new THREE.TubeGeometry(curve, 1000, 0.1, 30, false);
+  let geometry = new THREE.TubeGeometry(curve, 4000, 0.1, 50, false);
   let material = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
   const shdrmat = new THREE.ShaderMaterial({
     extensions: {
@@ -90,10 +99,11 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render({ time }) {
+    render({ time, playhead }) {
       controls.update();
       renderer.render(scene, camera);
-      mesh.rotation.y = time;
+      shdrmat.uniforms.playhead.value = playhead;
+      mesh.rotation.y = -playhead * 2 * Math.PI;
     },
     // Dispose of events & renderer for cleaner hot-reloading
     unload() {
