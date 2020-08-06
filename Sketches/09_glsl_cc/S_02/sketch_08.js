@@ -1,41 +1,45 @@
 // using step and smoothstep
 
-global.THREE = require("three");
-require("three/examples/js/controls/OrbitControls");
-const canvasSketch = require("canvas-sketch");
+global.THREE = require('three');
+require('three/examples/js/controls/OrbitControls');
+const canvasSketch = require('canvas-sketch');
 //---
 // import fragment from './shaders/fragment_01.glsl';
 // import vertex from './shaders/vertex_01.glsl';
 //---
-const fragment = require("../utils/shaders/S_02/glsl_08/fragment.glsl");
-const vertex = require("../utils/shaders/S_02/glsl_08/vertex.glsl");
+const fragment = require('../utils/shaders/S_02/glsl_08/fragment.glsl');
+const vertex = require('../utils/shaders/S_02/glsl_08/vertex.glsl');
 
 const settings = {
   dimensions: [800, 800],
   animate: true,
   // duration: 2,
-  context: "webgl",
+  context: 'webgl',
   attributes: {
-    antialias: true
-  }
+    antialias: true,
+  },
 };
 
 const sketch = ({ context }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // mouse event listener
-  function move(evt){
-    uniforms.u_mouse.value.x = (evt.touches) ? evt.touches[0].clientX : evt.clientX;
-    uniforms.u_mouse.value.y = (evt.touches) ? evt.touches[0].clientY : evt.clientY;
+  function move(evt) {
+    uniforms.u_mouse.value.x = evt.touches
+      ? evt.touches[0].clientX
+      : evt.clientX;
+    uniforms.u_mouse.value.y = evt.touches
+      ? evt.touches[0].clientY
+      : evt.clientY;
   }
 
   window.addEventListener('mousemove', move);
 
   // WebGL background color
-  renderer.setClearColor("#1c1c1c", 1);
+  renderer.setClearColor('#1c1c1c', 1);
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
@@ -52,27 +56,26 @@ const sketch = ({ context }) => {
   const geometry = new THREE.PlaneGeometry(2, 2);
 
   // Uniforms
-  const uniforms = { 
+  const uniforms = {
     time: { value: 0.0 },
     playhead: { value: 0.0 },
     u_color: { value: new THREE.Color(0xfffd01) },
     u_resolution: { value: { x: 0.0, y: 0.0 } },
-    u_mouse: { value: {x: 0.0, y: 0.0} }
-  }
+    u_mouse: { value: { x: 0.0, y: 0.0 } },
+  };
 
   // setup a shader material
   const material = new THREE.ShaderMaterial({
-    uniforms: uniforms, 
+    uniforms: uniforms,
     vertexShader: vertex,
     fragmentShader: fragment,
     wireframe: false,
-    side: THREE.DoubleSide
+    side: THREE.DoubleSide,
   });
 
   // Setup a mesh with geometry + material
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
-
 
   // draw each frame
   return {
@@ -101,20 +104,8 @@ const sketch = ({ context }) => {
       controls.dispose();
       renderer.dispose();
       window.removeEventListener('mousemove', move);
-    }
+    },
   };
 };
 
 canvasSketch(sketch, settings);
-
-// ---------------------------- NOTES -------------------------------------- //
-// 1. step returns 0.0 or 1.0 by comparing two values.
-// 2. step takes 2 parameters : step(edge, n)
-// 3. if n < edge -> 0.0 is returned
-// 4. if n > edge -> 1.0 is returned
-// ------------------------------------------------------------------------- //
-// 1. smoothstep is an interpolation between two values.
-// 2. takes 3 parameters : smoothstep(edge0, edge1, n)
-// 3. if n < edge0 -> 0.0 is returned
-// 4. if n > edge1 -> 1.0 is returned 
-// ------------------------------------------------------------------------- //
