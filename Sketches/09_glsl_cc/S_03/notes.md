@@ -51,3 +51,30 @@
 - all glsl matrices are square (a mat2 is a 2x2 matrix)
 - we can multiply a mat2 by a vec2 and so on
 
+## part_05 : tiling
+### uv values :
+
+|            |            |
+| :--------: | :--------: |
+| (0.0, 1.0) | (1.0, 1.0) |
+| (0.0, 0.0) | (1.0, 0.0) |
+
+### position values : 
+
+|                   |                  |
+| :---------------: | :--------------: |
+| (-1.0, 1.0, 0.0)  | (1.0, 1.0, 0.0)  |
+| (-1.0, -1.0, 0.0) | (1.0, -1.0, 0.0) |
+
+### the fract function :
+- return a decimal value stripping off the whole number value :
+  
+|       |       |
+| :---: | :---: |
+| 1.5   | 0.5   |
+| 6.7   | 0.7   |
+| 3.3   | 0.3   |
+
+- **plane model** coordinates are in the range -1 to 1
+- **texture** coordinates are in the range 0 to 1
+- **tiling** needs the coordinate space 0 to 1 to work best (texture coordinates -> uv values)
