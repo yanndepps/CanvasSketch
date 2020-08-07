@@ -26,4 +26,9 @@
    then substract the return value from 1.0
 3. we can create custom functions that return a value
 
-## part_03 : moving our shape
+## part_03 : moving the shape over time
+### sin and cos
+- a full revolution in radians is 2 * PI
+- adjust the size of the circle by multiplying by a value
+
+## part_04 : rotating the square 
