@@ -51,4 +51,3 @@
 - all glsl matrices are square (a mat2 is a 2x2 matrix)
 - we can multiply a mat2 by a vec2 and so on
 
-## part_05 : changing the rotation center
