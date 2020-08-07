@@ -32,3 +32,23 @@
 - adjust the size of the circle by multiplying by a value
 
 ## part_04 : rotating the square 
+### testing if pixel is in the square 
+- is pixel between + and - halfsize ?
+
+### getRotationMatrix 
+- s = sin(theta)
+- c = cos(theta)
+
+|      |      |
+| :--: | :--: |
+| c    | -s   |
+| s    | c    |
+
+- trig functions sin and cos take radian parameters
+- there are 2PI radians in a full revolution
+- 2PI is about 6.28
+- we can create a matrix in glsl using mat2, mat3 or mat4 constructors
+- all glsl matrices are square (a mat2 is a 2x2 matrix)
+- we can multiply a mat2 by a vec2 and so on
+
+## part_05 : changing the rotation center
