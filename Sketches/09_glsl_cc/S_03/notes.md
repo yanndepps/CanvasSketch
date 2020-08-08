@@ -78,3 +78,9 @@
 - **plane model** coordinates are in the range -1 to 1
 - **texture** coordinates are in the range 0 to 1
 - **tiling** needs the coordinate space 0 to 1 to work best (texture coordinates -> uv values)
+
+## part_06 : drawing circles
+### smoothstep(edge0, edge1, n) :
+- if n < edge0 returns 0.0
+- if n > edge1 returns 1.0 
+- if n is between edge0 and edge1 then a value between 0 and 1 is returned
