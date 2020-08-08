@@ -84,3 +84,18 @@
 - if n < edge0 returns 0.0
 - if n > edge1 returns 1.0 
 - if n is between edge0 and edge1 then a value between 0 and 1 is returned
+
+## part_07 : drawing lines
+- create a function :
+  - line(a, b, line_width, edge_thickness)
+  - returns 1.0 if b is between a + and - line_width
+  - use smoothstep to soften the edge of the line
+
+### using FragCoord.xy :
+- we use screen space coordinates, which could be in the range 0.0 to 2000.0
+
+### mix(a, b, n) :
+- if n < 0.0 returns a 
+- if n > 1.0 returns b
+- if n is between 0.0 and 1.0 an interpolated value is returned
+- by adding 1.0 and dividing by 2.0 we get a value between 0.0 and 1.0 (using the sin function which returns a vaule between -1.0 and 1.0 ...)
