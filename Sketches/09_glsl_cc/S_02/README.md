@@ -1,6 +1,15 @@
 # Notes
 
-## part_01
+- [Notes](#notes)
+- [part-01](#part-01)
+- [part-02](#part-02)
+- [part-03](#part-03)
+- [part-04](#part-04)
+- [part-05](#part-05)
+- [part-06](#part-06)
+- [part-07](#part-07)
+
+# part-01
 
 - we need a vertex shader and a fragment shader and each of these
   must have a main function.
@@ -11,12 +20,12 @@
   to a rgba format value.
 - each channel of a rgba format color takes a value between 0.0 and 1.0.
 
-## part_02
+# part-02
 
 - jumbling the elements of a vec variable is called swizzling :
   color.grba -> swaps the red and green channels.
 
-## part_03
+# part-03
 
 - Uniforms pass data between the control program and the shaders.
 - Each uniform will store a common value for each vertex & pixel.
@@ -36,7 +45,7 @@ v.x = u_mouse.x/u_resolution.x
 v.y = u_mouse.y/u_resolution.y
 ```
 
-## part_04
+# part-04
 
 - gl_FragCoord is a vec4 type which provides the coordinates of 
   the current pixel.
@@ -65,7 +74,7 @@ vec3(1.0, 0.0, 0.0) * 0.75 + vec3(0.0, 0.0, 1.0) * 0.25
 vec3(0.75, 0.0, 0.0) + vec3(0.0, 0.0, 0.25) = vec3(0.75, 0.0, 0.25)
 ```
 
-## part_05
+# part-05
 
 - pass values into the shaders using uniforms.
 - those values can be integers, floats, vectors or images.
@@ -76,7 +85,7 @@ vec3(0.75, 0.0, 0.0) + vec3(0.0, 0.0, 0.25) = vec3(0.75, 0.0, 0.25)
 - we use varying value.
 - varying vec2 v_uv
 
-## part_06
+# part-06
 - **clamp** constrains a value between a _min_ and a _max_ value.
 - **colors** in GLSL : each channel takes a value between 0.0 and 1.0
 - clamp take 3 parameters : **clamp(n, min, max)**
@@ -88,7 +97,7 @@ clamp(-1.0, 0.0, 1.0) -> 0.0
 clamp(0.5, 0.0, 1.0) -> 0.5
 ```
 
-## part_07
+# part-07
 - **step** returns 0.0 or 1.0 by comparing two values
 - **step** takes 2 parameters : **step(edge, n)** 
 - if n < edge -> 0.0 is returned 
