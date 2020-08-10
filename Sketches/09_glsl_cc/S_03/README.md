@@ -7,6 +7,7 @@
 - [part-05](#part-05)
 - [part-06](#part-06)
 - [part-07](#part-07)
+- [part-08](#part-08)
 
 # part-01
 ## drawing circle
@@ -114,3 +115,20 @@
 - if n > 1.0 returns b
 - if n is between 0.0 and 1.0 an interpolated value is returned
 - by adding 1.0 and dividing by 2.0 we get a value between 0.0 and 1.0 (using the sin function which returns a vaule between -1.0 and 1.0 ...)
+
+# part-08
+## combining elements
+### dot(a,b)
+- dot(a,b) = a.x * b.x + a.y * a.y  
+- h = dot(d,p)/dot(p,p)
+- h is how far along p is a point on a line perpendicular to p that goes through d
+
+  ![preview](../utils/img/preview_01.jpg)
+
+### atan(d.x,d.y)
+- atan returns an angle in the range + and - PI
+- angles increase in an anti-clockwise direction
+
+### mod(theta + atan(d.x, dy), 2PI)
+- mod returns the reminder after division
+- clamp restricts a value to a range
