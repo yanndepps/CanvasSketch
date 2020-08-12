@@ -3,6 +3,7 @@
 
 - [a2z](Sketches/13_a2z/README.md)
 - [akella](Sketches/15_akella/README.md)
+- [designing programs](Sketches/14_dsgnprogs/README.md)
 - [generative art](Sketches/02_genart/README.md)
 - [generated space](Sketches/07_genspace/README.md)
 - [glsl shaders](Sketches/09_glsl_cc/README.md)

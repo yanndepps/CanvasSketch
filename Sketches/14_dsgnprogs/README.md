@@ -1,0 +1,2 @@
+# Designing Programs
+- [designing programs](https://designingprograms.bitbucket.io/index.html) is a practical and pedagogical approach to programming, tailored for visual arts students, by Mark Webster.
