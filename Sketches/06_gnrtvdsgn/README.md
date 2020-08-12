@@ -1,5 +1,7 @@
 # Generative Design
+
 - visualize, program and create with JavaScript in p5.js
+- contents
   - [color](P1_Color/README.md)
   - [shape](P2_Shape/README.md)
   - [type](P3_Type/README.md)
