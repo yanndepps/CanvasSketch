@@ -4,7 +4,10 @@
   "description": "",
   "main": "sketch_01.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --ignore-path ../../.gitignore --write \"./**/*.{html,json,js,ts,css}\"",
+    "format:check": "prettier --ignore-path ../../.gitignore --check \"./**/*.{html,json,js,ts,css}\"",
+    "lint": "eslint --ignore-path ../../.gitignore --fix \"./**/*.{js,ts}\"",
+    "lint:check": "eslint --ignore-path ../../.gitignore --quiet \"./**/*.{js,ts}\""
   },
   "keywords": [],
   "author": "",
@@ -12,5 +15,11 @@
   "dependencies": {
     "canvas-sketch": "^0.7.3",
     "p5": "^1.1.9"
+  },
+  "devDependencies": {
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "prettier": "^2.0.5"
   }
 }
