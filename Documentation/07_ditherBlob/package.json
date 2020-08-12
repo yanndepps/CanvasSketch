@@ -1,0 +1,19 @@
+{
+  "name": "CanvasSketch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ditherblob.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas-sketch": "0.0.19",
+    "hex-rgb": "^3.0.0",
+    "perspective-camera": "^2.0.1",
+    "primitive-icosphere": "^1.0.2",
+    "regl": "^1.3.7"
+  }
+}

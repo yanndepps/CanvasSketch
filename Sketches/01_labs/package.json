@@ -1,0 +1,17 @@
+{
+  "name": "01_labs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "p5_shapes.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas-sketch": "^0.7.0",
+    "canvas-sketch-util": "^1.10.0",
+    "nice-color-palettes": "^3.0.0",
+    "p5": "^0.9.0",
+    "tone": "^13.8.25"
+  }
+}

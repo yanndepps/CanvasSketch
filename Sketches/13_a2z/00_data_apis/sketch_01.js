@@ -5,7 +5,7 @@ new p5();
 
 const settings = {
   p5: true,
-  dimensions: [ 512, 512 ],
+  dimensions: [512, 512],
   animate: true,
   // optional loop duration
   // duration: 6,
@@ -16,7 +16,7 @@ let flower;
 
 // preload before the sketch
 window.preload = () => {
-  flower = loadJSON('./data/flower.json');
+  flower = loadJSON('../data/flower.json');
 }
 
 const sketch = () => {

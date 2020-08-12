@@ -1,0 +1,22 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "extract.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas-sketch": "^0.7.3",
+    "canvas-sketch-util": "^1.10.0",
+    "color-space": "^1.16.0",
+    "disjoint-set": "^1.1.8",
+    "get-image-pixels": "^1.0.1",
+    "get-pixels": "^3.3.2",
+    "image-q": "^2.1.2",
+    "load-asset": "^1.2.0"
+  }
+}

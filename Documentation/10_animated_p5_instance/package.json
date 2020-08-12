@@ -1,0 +1,16 @@
+{
+  "name": "10_animated_p5_instance",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas-sketch": "0.0.19",
+    "p5": "^0.7.2"
+  }
+}

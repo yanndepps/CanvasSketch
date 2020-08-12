@@ -1,0 +1,15 @@
+{
+  "name": "04_svg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sketch.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas-sketch": "^0.7.1",
+    "canvas-sketch-util": "^1.10.0",
+    "canvas2svg": "^1.0.16"
+  }
+}

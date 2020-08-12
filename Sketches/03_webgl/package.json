@@ -1,0 +1,18 @@
+{
+  "name": "03_webgl",
+  "version": "1.0.0",
+  "description": "Experiments in WebGL",
+  "main": "sketch.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas-sketch": "^0.7.1",
+    "canvas-sketch-util": "^1.10.0",
+    "glsl-aastep": "^1.0.1",
+    "glsl-noise": "0.0.0",
+    "riso-colors": "^1.0.1",
+    "three": "^0.109.0"
+  }
+}

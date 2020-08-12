@@ -1,0 +1,16 @@
+{
+  "name": "05_wovn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sketch_01.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas-sketch": "^0.7.1",
+    "nice-color-palettes": "^3.0.0",
+    "p5": "^0.10.2",
+    "riso-colors": "^1.0.1"
+  }
+}

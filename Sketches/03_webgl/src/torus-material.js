@@ -38,11 +38,11 @@ const sketch = ({ context }) => {
 
   // Setup a texture
   const loader = new THREE.TextureLoader();
-  const map = loader.load("brick-diffuse.jpg");
+  const map = loader.load("../img/brick-diffuse.jpg");
   map.wrapS = map.wrapT = THREE.RepeatWrapping;
   map.repeat.set(2, 1).multiplyScalar(2);
 
-  const normalMap = loader.load("brick-normal.jpg");
+  const normalMap = loader.load("../img/brick-normal.jpg");
   normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
   normalMap.repeat.copy(map.repeat);
 

@@ -40,8 +40,8 @@ const sketch = ({ context }) => {
   // reference the loader once, use it twice
   // THREE will load them in parallel
   const loader = new THREE.TextureLoader();
-  const texture = loader.load('earth.jpg');
-  const moonTexture = loader.load('moon.jpg');
+  const texture = loader.load('../img/earth.jpg');
+  const moonTexture = loader.load('../img/moon.jpg');
 
   // Setup a material
   const material = new THREE.MeshStandardMaterial({
@@ -53,7 +53,7 @@ const sketch = ({ context }) => {
   // Setup a mesh with geometry + material
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
-  
+
   // create a group for object parenting
   const moonGroup = new THREE.Group();
 

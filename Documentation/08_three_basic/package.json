@@ -1,0 +1,16 @@
+{
+  "name": "08_three_basic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas-sketch": "0.0.19",
+    "three": "^0.97.0"
+  }
+}

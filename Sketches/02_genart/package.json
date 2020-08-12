@@ -1,0 +1,20 @@
+{
+  "name": "02_genart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sketch.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bezier-easing": "^2.1.0",
+    "canvas-sketch": "^0.6.1",
+    "canvas-sketch-util": "^1.8.0",
+    "eases": "^1.0.8",
+    "glsl-hsl2rgb": "^1.1.0",
+    "glsl-noise": "0.0.0",
+    "nice-color-palettes": "^3.0.0",
+    "three": "^0.108.0"
+  }
+}

@@ -8,7 +8,7 @@ new p5();
 
 const settings = {
   p5: true,
-  dimensions: [ 512, 800 ],
+  dimensions: [512, 800],
   animate: true,
   context: '2d'
 };
@@ -17,7 +17,7 @@ let data;
 
 // preload before the sketch
 window.preload = () => {
-  data = loadJSON('./data/data_02.json');
+  data = loadJSON('../data/data_02.json');
 }
 
 const sketch = () => {
@@ -29,7 +29,7 @@ const sketch = () => {
     createElement('h1', birds[i].family)
     // members
     let members = birds[i].members;
-    for (let j = 0; j < members.length; j++ ) {
+    for (let j = 0; j < members.length; j++) {
       createDiv(members[j]);
     }
   }

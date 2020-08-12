@@ -2,7 +2,7 @@
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const Walker = require('./step_02/Walker');
+const Walker = require('../utils/01_vectors/step_02/Walker');
 
 const settings = {
   p5: true,

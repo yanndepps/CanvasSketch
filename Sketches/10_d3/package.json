@@ -1,0 +1,17 @@
+{
+  "name": "10_d3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "svg-d3.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas-sketch": "^0.7.3",
+    "canvas-sketch-util": "^1.10.0",
+    "d3": "^5.16.0"
+  }
+}

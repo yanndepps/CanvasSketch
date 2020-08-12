@@ -2,7 +2,7 @@
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const Mover = require('./step_05/Mover');
+const Mover = require('../utils/01_vectors/step_05/Mover');
 
 const settings = {
   p5: true,
@@ -10,19 +10,18 @@ const settings = {
   animate: true,
   context: '2d',
   attributes: {
-    antialias: true
-  }
+    antialias: true,
+  },
 };
 
-
 const sketch = () => {
-  // Setup 
+  // Setup
   let mover;
   mover = new Mover(width / 2, height / 2);
   // Draw
   return ({ width, height }) => {
     const dim = min(width, height);
-    const amount = 0.040;
+    const amount = 0.04;
     const thickness = dim * amount;
     // console.log(thickness);
 
