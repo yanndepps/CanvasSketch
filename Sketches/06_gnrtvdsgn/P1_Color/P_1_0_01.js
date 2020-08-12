@@ -9,7 +9,7 @@ const settings = {
   dimensions: [720, 720],
   context: "2d",
   animate: true,
-  duration: 6
+  duration: 6,
 };
 
 // Optionally preload before you load the sketch

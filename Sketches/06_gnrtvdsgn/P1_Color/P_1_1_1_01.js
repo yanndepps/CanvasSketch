@@ -17,7 +17,7 @@ const settings = {
   p5: true,
   dimensions: [800, 400],
   context: "2d",
-  animate: true
+  animate: true,
 };
 
 let stepX;
@@ -28,7 +28,7 @@ window.preload = () => {
 };
 
 canvasSketch(() => {
-  // setup 
+  // setup
   colorMode(HSB, width, height, 100);
   noStroke();
 
