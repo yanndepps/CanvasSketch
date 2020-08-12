@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use stritct";
 const canvasSketch = require("canvas-sketch");
 const p5 = require("p5");
