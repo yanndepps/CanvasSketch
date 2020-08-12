@@ -8,5 +8,6 @@
 - [generated space](Sketches/07_genspace/README.md)
 - [glsl shaders](Sketches/09_glsl_cc/README.md)
 - [labs](Sketches/01_labs/README.md)
+- [programming design systems](Sketches/16_prgdsgnsys/README.md)
 - [the nature of code](Sketches/12_tnoc/README.md)
 - [webgl glsl workshop](Sketches/03_webgl/README.md)
