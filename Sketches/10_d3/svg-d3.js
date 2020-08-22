@@ -1,3 +1,4 @@
+// @ts-nocheck
 const canvasSketch = require('canvas-sketch');
 const d3 = require('d3');
 const Random = require('canvas-sketch-util/random');
@@ -10,22 +11,24 @@ const settings = {
   // Do not append <canvas> element
   parent: false,
   // Additional settings as desired
-  dimensions: [ 512, 512 ]
+  dimensions: [512, 512]
 };
 
 const sketch = ({ canvas, width, height }) => {
   // Create some random circle data
   const data = linspace(250).map(() => {
-    const [ cx, cy ] = Random.insideCircle(width / 4)
+    const [cx, cy] = Random.insideCircle(width / 4)
     return {
       x: cx + width / 2,
       y: cy + height / 2,
       r: Math.max(1, Random.gaussian(width * 0.001, width * 0.02)),
-      fill: Color.parse({ hsl: [
-        Random.range(140, 240),
-        50,
-        50
-      ] }).hex
+      fill: Color.parse({
+        hsl: [
+          Random.range(140, 240),
+          50,
+          50
+        ]
+      }).hex
     }
   });
 
@@ -76,7 +79,7 @@ const sketch = ({ canvas, width, height }) => {
 
 canvasSketch(sketch, settings);
 
-function svgToBlob (svg) {
+function svgToBlob(svg) {
   const svgAsXML = new window.XMLSerializer().serializeToString(svg);
-  return new window.Blob([ svgAsXML ], { type: 'image/svg+xml' });
+  return new window.Blob([svgAsXML], { type: 'image/svg+xml' });
 }

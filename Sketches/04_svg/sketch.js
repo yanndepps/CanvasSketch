@@ -1,3 +1,4 @@
+// @ts-nocheck
 const canvasSketch = require("canvas-sketch");
 const svg = require("./canvas-to-svg.js");
 
