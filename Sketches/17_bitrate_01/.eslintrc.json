@@ -1,7 +1,9 @@
 {
   "extends": ["eslint:recommended", "plugin:import/errors", "prettier"],
   "rules": {
-    "no-console": 1
+    "no-console": 1,
+    "no-undef": 0,
+    "no-unused-vars": 0
   },
   "plugins": ["import"],
   "parserOptions": {

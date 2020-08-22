@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */
 // @ts-nocheck
-// basic template
+// basic interactivity
 
 const canvasSketch = require("canvas-sketch");
 const p5 = require("p5");
@@ -13,31 +12,47 @@ const settings = {
   animate: true,
 };
 
-// Optionally preload before you load the sketch
+let th = 0.00195;
+let dim;
+let diameter;
+let r, g, b;
+const bgColor = color("#343837");
+
 window.preload = () => {
   // Preload sounds/images/etc...
 };
 
-let th = 0.00115;
-let dim;
+function pickRandColor() {
+  r = random(255);
+  g = random(255);
+  b = random(255);
+}
 
 canvasSketch(() => {
   // Inside this is a bit like p5.js 'setup' function
   dim = Math.min(width, height) * th;
-  // console.log(dim);
+  console.log(dim);
+  diameter = ceil(dim * 40);
+  console.log(diameter);
+  pickRandColor();
 
   // Attach events to window to receive them
   window.mouseClicked = () => {
     // console.log('Mouse clicked');
   };
 
+  window.mousePressed = () => {
+    diameter = floor(random(dim * 40, dim * 180));
+    pickRandColor();
+    console.log(diameter);
+  };
+
   // Return a renderer to 'draw' the p5.js content
   return ({ playhead, width, height }) => {
     // Draw with p5.js things
-    // clear();
-    background("#343837");
-    fill("#0F9B8E");
+    background(bgColor);
     noStroke();
-    ellipse(width / 2, height / 2, width / 4, height / 4);
+    fill(r, g, b);
+    ellipse(mouseX, mouseY, diameter, diameter);
   };
 }, settings);
