@@ -37,7 +37,7 @@ canvasSketch(() => {
 
   // attach a basic synth
   // +--------------+   +------------+
-  // |OmniOscillator|>->|AmplitudeEnv|>->out
+  // |OmniOscillator+>->|AmplitudeEnv+>->out
   // +--------------+   +------------+
 
   synth = new Tone.Synth().toDestination();
