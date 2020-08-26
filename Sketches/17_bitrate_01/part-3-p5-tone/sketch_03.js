@@ -1,5 +1,5 @@
 // @ts-nocheck
-// waveform
+// fft
 
 const canvasSketch = require("canvas-sketch");
 const p5 = require("p5");
@@ -18,10 +18,11 @@ let dim;
 let synth;
 let bgCol;
 let fiCol;
+let stCol;
 let size;
-let waveform;
+let fft;
 let font;
-const AMinorScale = ['A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3'];
+const AOctaves = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7'];
 
 
 // Optionally preload before you load the sketch
@@ -34,8 +35,9 @@ canvasSketch(() => {
   // Inside this is a bit like p5.js 'setup' function
   dim = Math.floor(Math.min(width, height) * th);
   // console.log(dim);
-  bgCol = color('#9DBCD4');
-  fiCol = color('#FFFD01');
+  bgCol = color('#59656D');
+  fiCol = color('#FF964F');
+  stCol = color('#D46A7E');
   textSize(dim);
   textFont(font);
   textAlign(CENTER,CENTER);
@@ -43,39 +45,39 @@ canvasSketch(() => {
   size = 1024;
   // size = 16384;
   synth = new Tone.Synth();
-  waveform = new Tone.Waveform(size).toDestination();
-  synth.connect(waveform);
-  // strokeWeight(th*2);
+  fft = new Tone.FFT(size).toDestination();
+  synth.connect(fft);
+  strokeWeight(th*2);
 
   // Attach events to window to receive them
   window.mousePressed = () => {
     // console.log('Mouse clicked');
-    hasStarted = true;
+    // hasStarted = true;
     Tone.start();
   };
 
   window.keyPressed = () => {
     switch (key) {
       case ('a'):
-        synth.triggerAttackRelease(AMinorScale[0], '16n');
+        synth.triggerAttackRelease(AOctaves[0], '16n');
         break;
       case ('s'):
-        synth.triggerAttackRelease(AMinorScale[1], '16n');
+        synth.triggerAttackRelease(AOctaves[1], '16n');
         break;
       case ('c'):
-        synth.triggerAttackRelease(AMinorScale[2], '16n');
+        synth.triggerAttackRelease(AOctaves[2], '16n');
         break;
       case ('d'):
-        synth.triggerAttackRelease(AMinorScale[3], '16n');
+        synth.triggerAttackRelease(AOctaves[3], '16n');
         break;
       case ('e'):
-        synth.triggerAttackRelease(AMinorScale[4], '16n');
+        synth.triggerAttackRelease(AOctaves[4], '16n');
         break;
       case ('f'):
-        synth.triggerAttackRelease(AMinorScale[5], '16n');
+        synth.triggerAttackRelease(AOctaves[5], '16n');
         break;
       case ('g'):
-        synth.triggerAttackRelease(AMinorScale[6], '16n');
+        synth.triggerAttackRelease(AOctaves[6], '16n');
         break;
     }
   }
@@ -87,12 +89,11 @@ canvasSketch(() => {
     fill(fiCol);
     text('a.s.c.d.e.f.g', width/2, height/4);
     // draw the wave
-    const waveArray = waveform.getValue();
-    const bandSize = width / size;
-    noStroke();
+    const waveArray = fft.getValue();
+    // noStroke();
     beginShape();
     for (let i = 0; i < waveArray.length; i++) {
-      curveVertex(bandSize * i, map(waveArray[i], -1, 1, height, height/4));
+      curveVertex(map(log(i), 0, log(waveArray.length), 0, width), map(waveArray[i], -height/2, 0, height, 0));
     }
     endShape();
 

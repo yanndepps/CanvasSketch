@@ -8,5 +8,4 @@
 
 -   [ball bounce](sketch_01.js)
 -   [tone waveform](sketch_02.js)
--   tone fft bands
--   tone fft
+-   [tone fft](sketch_03.js)
