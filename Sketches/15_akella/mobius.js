@@ -11,14 +11,14 @@ const settings = {
   duration: 3,
   context: "webgl",
   attributes: {
-    antialias: true
-  }
+    antialias: true,
+  },
 };
 
 const sketch = ({ context, width, height }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // WebGL background color
@@ -28,8 +28,15 @@ const sketch = ({ context, width, height }) => {
   // Setup a camera
   //const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
   let frustumSize = 3;
-  let aspect = 0.5 * width / height;
-  const camera = new THREE.OrthographicCamera(frustumSize*aspect/-2, frustumSize*aspect/2, frustumSize/2, frustumSize/-2, -1000, 1000);
+  let aspect = (0.5 * width) / height;
+  const camera = new THREE.OrthographicCamera(
+    (frustumSize * aspect) / -2,
+    (frustumSize * aspect) / 2,
+    frustumSize / 2,
+    frustumSize / -2,
+    -1000,
+    1000
+  );
   camera.position.set(0, 2, 2);
   camera.lookAt(new THREE.Vector3());
 
@@ -52,41 +59,40 @@ const sketch = ({ context, width, height }) => {
   scene.add(gr);
 
   let gr1 = new THREE.Group();
-  gr1.rotation.x = Math.PI/2;
-  gr1.position.y = -depth + margin * 0; 
+  gr1.rotation.x = Math.PI / 2;
+  gr1.position.y = -depth + margin * 0;
 
   scene1.add(gr1);
 
-  gr.position.x = aspect*frustumSize/2;
-  gr1.position.x = -aspect*frustumSize/2;
+  gr.position.x = (aspect * frustumSize) / 2;
+  gr1.position.x = (-aspect * frustumSize) / 2;
 
   // mesh creation
   for (let k = 0; k < 1; k++) {
     for (let i = 0; i < num; i++) {
       let mesh = getBrick(i, num, space, depth);
-      mesh.position.setY(margin*k);
+      mesh.position.setY(margin * k);
       gr.add(mesh);
-      anim.push({ mesh: mesh, y: margin*k });
-    } 
-
+      anim.push({ mesh: mesh, y: margin * k });
+    }
 
     for (let i = 0; i < num; i++) {
       let mesh = getBrick(i, num, space, depth);
-      mesh.position.setY(margin*k);
+      mesh.position.setY(margin * k);
       gr1.add(mesh);
-      anim1.push({ mesh: mesh, y: margin*k });
+      anim1.push({ mesh: mesh, y: margin * k });
     }
   }
 
   // specify an ambient/unlit color
-  scene.add(new THREE.AmbientLight( '#59414f' ));
-  scene1.add(new THREE.AmbientLight( '#59414f' ));
+  scene.add(new THREE.AmbientLight("#59414f"));
+  scene1.add(new THREE.AmbientLight("#59414f"));
 
-  // add some light 
-  const light = new THREE.DirectionalLight('#45caf7', 1);
-  const light1 = new THREE.DirectionalLight('#45caf7', 1);
-  light.position.set(0,1,0);
-  light1.position.set(0,1,0);
+  // add some light
+  const light = new THREE.DirectionalLight("#45caf7", 1);
+  const light1 = new THREE.DirectionalLight("#45caf7", 1);
+  light.position.set(0, 1, 0);
+  light1.position.set(0, 1, 0);
   scene.add(light);
   scene1.add(light1);
 
@@ -101,34 +107,37 @@ const sketch = ({ context, width, height }) => {
     },
     // Update & render your scene here
     render({ playhead, time, width, height }) {
-      anim.forEach(( m, i ) => {
-        m.mesh.position.y = m.y + 0.9 * Math.sin(playhead * 2 * Math.PI + 2 * Math.PI * i/num);
+      anim.forEach((m, i) => {
+        m.mesh.position.y =
+          m.y +
+          0.9 * Math.sin(playhead * 2 * Math.PI + (2 * Math.PI * i) / num);
       });
 
-      anim1.forEach(( m, i ) => {
-        m.mesh.position.y = m.y - 0.9 * Math.sin(playhead * 2 * Math.PI + 2 * Math.PI * i/num);
+      anim1.forEach((m, i) => {
+        m.mesh.position.y =
+          m.y -
+          0.9 * Math.sin(playhead * 2 * Math.PI + (2 * Math.PI * i) / num);
       });
 
-      gr.rotation.y = Math.PI*2*playhead;
-      gr1.rotation.y = Math.PI*2*playhead;
+      gr.rotation.y = Math.PI * 2 * playhead;
+      gr1.rotation.y = Math.PI * 2 * playhead;
       // left part
-      renderer.setViewport(0,0,width/2,height);
-      renderer.setScissor(0,0,width/2,height);
+      renderer.setViewport(0, 0, width / 2, height);
+      renderer.setScissor(0, 0, width / 2, height);
       renderer.render(scene, camera);
       // right part
-      renderer.setViewport(width/2,0,width/2,height);
-      renderer.setScissor(width/2,0,width/2,height);
+      renderer.setViewport(width / 2, 0, width / 2, height);
+      renderer.setScissor(width / 2, 0, width / 2, height);
       renderer.render(scene1, camera);
 
       //mesh.rotation.y = time * (10 * Math.PI / 100);
       controls.update();
-      
     },
     // Dispose of events & renderer for cleaner hot-reloading
     unload() {
       controls.dispose();
       renderer.dispose();
-    }
+    },
   };
 };
 

@@ -1,23 +1,23 @@
-// Gravity updated with import of simplex3d 
+// Gravity updated with import of simplex3d
 // @ts-nocheck
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
 
 const canvasSketch = require("canvas-sketch");
-const glslify = require('glslify');
+const glslify = require("glslify");
 
 const settings = {
   dimensions: [800, 800],
   animate: true,
   context: "webgl",
   attributes: {
-    antialias: true
-  }
+    antialias: true,
+  },
 };
 
 const sketch = ({ context }) => {
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // WebGL background color
@@ -38,7 +38,7 @@ const sketch = ({ context }) => {
   const geometry = new THREE.SphereBufferGeometry(1, 462, 462);
 
   // Setup a material
-  // particle shaders 
+  // particle shaders
   const vertexParticles = /* glsl */ `
     uniform float time;
     varying vec2 vUv;
@@ -66,7 +66,7 @@ const sketch = ({ context }) => {
   `;
 
   // vertex shader
-  const vertexShader = glslify(/* glsl */`
+  const vertexShader = glslify(/* glsl */ `
     varying vec3 vPosition;
     varying vec2 vUv;
     varying vec3 vColor;
@@ -117,21 +117,21 @@ const sketch = ({ context }) => {
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      time: { value: 0 }
+      time: { value: 0 },
     },
     wireframe: false,
     vertexShader: vertexShader,
-    fragmentShader: fragmentShader
+    fragmentShader: fragmentShader,
   });
 
   // points material
   const particleMat = new THREE.ShaderMaterial({
     uniforms: {
-      time: { value: 0 }
+      time: { value: 0 },
     },
     transparent: true,
     vertexShader: vertexParticles,
-    fragmentShader: fragmentParticles
+    fragmentShader: fragmentParticles,
   });
 
   // Setup a mesh with geometry + material
@@ -148,7 +148,7 @@ const sketch = ({ context }) => {
   let rad = 1.7;
 
   for (let i = 0; i < N; i++) {
-    let y = i * offset - 1 + (offset / 2);
+    let y = i * offset - 1 + offset / 2;
     let r = Math.sqrt(1 - y * y);
     let phi = i * inc;
 
@@ -158,7 +158,7 @@ const sketch = ({ context }) => {
   }
 
   // setup points mesh
-  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
   // const particleGeo = new THREE.SphereBufferGeometry(1.5, 163, 162);
   const points = new THREE.Points(particleGeo, particleMat);
   scene.add(points);
@@ -176,7 +176,7 @@ const sketch = ({ context }) => {
     render({ time }) {
       material.uniforms.time.value = 3 * time;
       particleMat.uniforms.time.value = 3 * time;
-      points.rotation.y = time / 5.;
+      points.rotation.y = time / 5;
       controls.update();
       renderer.render(scene, camera);
     },
@@ -184,7 +184,7 @@ const sketch = ({ context }) => {
     unload() {
       controls.dispose();
       renderer.dispose();
-    }
+    },
   };
 };
 

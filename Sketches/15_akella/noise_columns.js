@@ -7,19 +7,19 @@ const fragment = require("./utils/s3e29/shaders/fragment.glsl");
 const fragment1 = require("./utils/s3e29/shaders/fragment1.glsl");
 
 const settings = {
-  dimensions: [ 800, 800 ],
+  dimensions: [800, 800],
   animate: true,
   duration: 15,
   context: "webgl",
   attributes: {
-    antialias: true
-  }
+    antialias: true,
+  },
 };
 
 const sketch = ({ context }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // WebGL background color
@@ -37,14 +37,14 @@ const sketch = ({ context }) => {
   const scene = new THREE.Scene();
 
   let number = 50;
-  let geometry = new THREE.PlaneBufferGeometry(1,1).rotateX(Math.PI/2);
+  let geometry = new THREE.PlaneBufferGeometry(1, 1).rotateX(Math.PI / 2);
   // let material = new THREE.MeshBasicMaterial({
   //   wireframe: true
   // });
   // setup a shader material
   const shdrmat = new THREE.ShaderMaterial({
     extensions: {
-      derivatives: "#extension GL_OES_standard_derivatives : enable"
+      derivatives: "#extension GL_OES_standard_derivatives : enable",
     },
     side: THREE.DoubleSide,
     uniforms: {
@@ -53,17 +53,17 @@ const sketch = ({ context }) => {
       level: { type: "f", value: 0.0 },
       black: { type: "f", value: 0.0 },
       uvRate1: {
-        value: new THREE.Vector2(1, 1)
-      }
+        value: new THREE.Vector2(1, 1),
+      },
     },
     transparent: true,
     vertexShader: vertex,
-    fragmentShader: fragment
+    fragmentShader: fragment,
   });
 
   const planemat = new THREE.ShaderMaterial({
     extensions: {
-      derivatives: "#extension GL_OES_standard_derivatives : enable"
+      derivatives: "#extension GL_OES_standard_derivatives : enable",
     },
     side: THREE.DoubleSide,
     uniforms: {
@@ -72,12 +72,12 @@ const sketch = ({ context }) => {
       level: { type: "f", value: 0.0 },
       black: { type: "f", value: 0.0 },
       uvRate1: {
-        value: new THREE.Vector2(1, 1)
-      }
+        value: new THREE.Vector2(1, 1),
+      },
     },
     transparent: true,
     vertexShader: vertex,
-    fragmentShader: fragment1
+    fragmentShader: fragment1,
   });
 
   let group = new THREE.Group();
@@ -87,17 +87,17 @@ const sketch = ({ context }) => {
   let shdrmats = [];
 
   for (let i = 0; i <= number; i++) {
-    let level = i/number;
+    let level = i / number;
     let m0 = shdrmat.clone();
     let m1 = shdrmat.clone();
 
     shdrmats.push(m0);
     shdrmats.push(m1);
 
-    m0.uniforms.black.value = 1; 
-    m1.uniforms.black.value = 0; 
-    m0.uniforms.level.value = level; 
-    m1.uniforms.level.value = level; 
+    m0.uniforms.black.value = 1;
+    m1.uniforms.black.value = 0;
+    m0.uniforms.level.value = level;
+    m1.uniforms.level.value = level;
 
     let mesh = new THREE.Mesh(geometry, m0);
     let mesh1 = new THREE.Mesh(geometry, m1);
@@ -106,14 +106,17 @@ const sketch = ({ context }) => {
     mesh1.position.y = level - 0.005;
 
     if (i == number) {
-      mesh1.position.y = level - 1/number; 
+      mesh1.position.y = level - 1 / number;
     }
 
     group.add(mesh);
     group.add(mesh1);
   }
 
-  let mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(6,6).rotateX(Math.PI/2), planemat);
+  let mesh = new THREE.Mesh(
+    new THREE.PlaneBufferGeometry(6, 6).rotateX(Math.PI / 2),
+    planemat
+  );
   mesh.position.y = 0.4;
   group.add(mesh);
 
@@ -129,9 +132,9 @@ const sketch = ({ context }) => {
     // Update & render your scene here
     render({ time, playhead }) {
       // shdrmat.uniforms.playhead.value = playhead;
-      shdrmats.forEach(m => {
+      shdrmats.forEach((m) => {
         m.uniforms.playhead.value = playhead;
-      })
+      });
       controls.update();
       renderer.render(scene, camera);
     },
@@ -139,7 +142,7 @@ const sketch = ({ context }) => {
     unload() {
       controls.dispose();
       renderer.dispose();
-    }
+    },
   };
 };
 

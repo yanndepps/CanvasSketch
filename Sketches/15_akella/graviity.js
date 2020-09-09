@@ -9,13 +9,13 @@ const settings = {
   animate: true,
   context: "webgl",
   attributes: {
-    antialias: true
-  }
+    antialias: true,
+  },
 };
 
 const sketch = ({ context }) => {
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // WebGL background color
@@ -36,7 +36,7 @@ const sketch = ({ context }) => {
   const geometry = new THREE.SphereBufferGeometry(1, 462, 462);
 
   // Setup a material
-  // particle shaders 
+  // particle shaders
   const vertexParticles = /* glsl */ `
     uniform float time;
     varying vec2 vUv;
@@ -185,21 +185,21 @@ const sketch = ({ context }) => {
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      time: { value: 0}
+      time: { value: 0 },
     },
     wireframe: false,
     vertexShader: vertexShader,
-    fragmentShader: fragmentShader
+    fragmentShader: fragmentShader,
   });
 
   // points material
   const particleMat = new THREE.ShaderMaterial({
     uniforms: {
-      time: { value: 0 }
+      time: { value: 0 },
     },
     transparent: true,
     vertexShader: vertexParticles,
-    fragmentShader: fragmentParticles
+    fragmentShader: fragmentParticles,
   });
 
   // Setup a mesh with geometry + material
@@ -208,25 +208,25 @@ const sketch = ({ context }) => {
 
   // uniform distribution of points on the sphere, using golden ratio
   let N = 60000;
-  let positions = new Float32Array(N*3);
+  let positions = new Float32Array(N * 3);
   const particleGeo = new THREE.BufferGeometry();
 
-  let inc = Math.PI*(3 - Math.sqrt(5));
-  let offset = 2/N;
+  let inc = Math.PI * (3 - Math.sqrt(5));
+  let offset = 2 / N;
   let rad = 1.7;
 
   for (let i = 0; i < N; i++) {
-    let y = i * offset - 1 + (offset/2);
-    let r = Math.sqrt(1 - y*y);
+    let y = i * offset - 1 + offset / 2;
+    let r = Math.sqrt(1 - y * y);
     let phi = i * inc;
 
-    positions[3*i] = rad*Math.cos(phi)*r;
-    positions[3*i+1] = rad*y;
-    positions[3*i+2] = rad*Math.sin(phi)*r;
+    positions[3 * i] = rad * Math.cos(phi) * r;
+    positions[3 * i + 1] = rad * y;
+    positions[3 * i + 2] = rad * Math.sin(phi) * r;
   }
 
   // setup points mesh
-  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
   // const particleGeo = new THREE.SphereBufferGeometry(1.5, 163, 162);
   const points = new THREE.Points(particleGeo, particleMat);
   scene.add(points);
@@ -245,7 +245,7 @@ const sketch = ({ context }) => {
       // time += 0.05;
       material.uniforms.time.value = time;
       particleMat.uniforms.time.value = time;
-      points.rotation.y = time/10.;
+      points.rotation.y = time / 10;
       controls.update();
       renderer.render(scene, camera);
     },
@@ -253,7 +253,7 @@ const sketch = ({ context }) => {
     unload() {
       controls.dispose();
       renderer.dispose();
-    }
+    },
   };
 };
 

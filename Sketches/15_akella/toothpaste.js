@@ -4,26 +4,26 @@ let palettes = require("nice-color-palettes");
 let rand = Math.floor(Math.random() * 100);
 rand = 24;
 let myColors = palettes[rand];
-let colors = myColors.map(color => new THREE.Color(color));
+let colors = myColors.map((color) => new THREE.Color(color));
 // console.log(colors);
 const fragment = require("./utils/s3e30/shaders/fragment.glsl");
 const vertex = require("./utils/s3e30/shaders/vertex.glsl");
 const canvasSketch = require("canvas-sketch");
 
 const settings = {
-  dimensions: [ 800, 800 ],
+  dimensions: [800, 800],
   animate: true,
   duration: 2,
   context: "webgl",
   attributes: {
-    antialias: true
-  }
+    antialias: true,
+  },
 };
 
 const sketch = ({ context, width, height }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // WebGL background color
@@ -32,7 +32,14 @@ const sketch = ({ context, width, height }) => {
   // ortho camera
   const frustumSize = 3;
   const aspect = width / height;
-  const camera = new THREE.OrthographicCamera(frustumSize*aspect/-2, frustumSize*aspect/2, frustumSize/2, frustumSize/-2, -1000, 1000);
+  const camera = new THREE.OrthographicCamera(
+    (frustumSize * aspect) / -2,
+    (frustumSize * aspect) / 2,
+    frustumSize / 2,
+    frustumSize / -2,
+    -1000,
+    1000
+  );
 
   // Setup a camera
   // const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
@@ -50,22 +57,22 @@ const sketch = ({ context, width, height }) => {
   let points = [];
 
   for (let i = 0; i < number; i++) {
-    let p = i/number;
+    let p = i / number;
     // let x = p*Math.sin(p*50);
-    let x = p*Math.sin(p*60) + 0. * Math.sin(p*50);
+    let x = p * Math.sin(p * 60) + 0 * Math.sin(p * 50);
     // let y = p*4;
-    let y = p*4 + 0.1 * Math.sin(p*40);
+    let y = p * 4 + 0.1 * Math.sin(p * 40);
     // let z = p*Math.cos(p*50);
-    let z = p*Math.cos(p*60) + 0. * Math.sin(p*50);
+    let z = p * Math.cos(p * 60) + 0 * Math.sin(p * 50);
     points.push(new THREE.Vector3(x, y, z));
   }
 
   let curve = new THREE.CatmullRomCurve3(points);
   let geometry = new THREE.TubeGeometry(curve, 4000, 0.1, 50, false);
-  let material = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
+  let material = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide });
   const shdrmat = new THREE.ShaderMaterial({
     extensions: {
-      derivatives: "#extension GL_OES_standard_derivatives : enable"
+      derivatives: "#extension GL_OES_standard_derivatives : enable",
     },
     side: THREE.DoubleSide,
     uniforms: {
@@ -74,20 +81,18 @@ const sketch = ({ context, width, height }) => {
       resolution: { type: "v4", value: new THREE.Vector4() },
       colors: { type: "fv1", value: colors },
       uvRate1: {
-        value: new THREE.Vector2(1, 1)
-      }
+        value: new THREE.Vector2(1, 1),
+      },
     },
     wireframe: false,
     transparent: false,
     vertexShader: vertex,
-    fragmentShader: fragment
+    fragmentShader: fragment,
   });
 
   let mesh = new THREE.Mesh(geometry, shdrmat);
   mesh.position.y = -2;
   scene.add(mesh);
-
-
 
   // draw each frame
   return {
@@ -109,7 +114,7 @@ const sketch = ({ context, width, height }) => {
     unload() {
       controls.dispose();
       renderer.dispose();
-    }
+    },
   };
 };
 

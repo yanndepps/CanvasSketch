@@ -10,13 +10,13 @@ const settings = {
   // Make the loop animated
   animate: true,
   // Get a WebGL canvas rather than 2D
-  context: "webgl"
+  context: "webgl",
 };
 
 const sketch = ({ context }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // WebGL background color
@@ -39,7 +39,7 @@ const sketch = ({ context }) => {
   // Setup a material
   const material = new THREE.MeshBasicMaterial({
     color: "red",
-    wireframe: true
+    wireframe: true,
   });
 
   // Setup a mesh with geometry + material
@@ -64,7 +64,7 @@ const sketch = ({ context }) => {
     unload() {
       controls.dispose();
       renderer.dispose();
-    }
+    },
   };
 };
 

@@ -11,12 +11,11 @@ const settings = {
   animate: true,
   context: "webgl",
   attributes: {
-    antialias: true
-  }
+    antialias: true,
+  },
 };
 
 const planeFunction = (u, v, target) => {
-
   let x = u - 0.5;
   let y = v - 0.5;
   let z = 0;
@@ -29,15 +28,23 @@ const kleinFunction = (u, v, target) => {
   u *= Math.PI * 2;
   v *= Math.PI * 2;
 
-  let x = Math.cos(u) * (a + Math.sin(v) * Math.cos(u / 2) - Math.sin(2 * v) * Math.sin(u / 2) / 2);
-  let y = Math.sin(u) * (a + Math.sin(v) * Math.cos(u / 2) - Math.sin(2 * v) * Math.sin(u / 2) / 2);
-  let z = Math.sin(u / 2) * Math.sin(v) + Math.cos(u / 2) * Math.sin(2 * v) / 2;
+  let x =
+    Math.cos(u) *
+    (a +
+      Math.sin(v) * Math.cos(u / 2) -
+      (Math.sin(2 * v) * Math.sin(u / 2)) / 2);
+  let y =
+    Math.sin(u) *
+    (a +
+      Math.sin(v) * Math.cos(u / 2) -
+      (Math.sin(2 * v) * Math.sin(u / 2)) / 2);
+  let z =
+    Math.sin(u / 2) * Math.sin(v) + (Math.cos(u / 2) * Math.sin(2 * v)) / 2;
 
   target.set(x, y, z);
 };
 
 const graykleinFunction = (u, v, target) => {
-
   u *= Math.PI * 4;
   v *= Math.PI * 2;
 
@@ -45,9 +52,19 @@ const graykleinFunction = (u, v, target) => {
   let n = 3;
   let m = 1;
 
-  let x = (a + Math.cos(n * u / 2.0) * Math.sin(v) - Math.sin(n * u / 2.0) * Math.sin(2 * v)) * Math.cos(m * u / 2.0);
-  let y = (a + Math.cos(n * u / 2.0) * Math.sin(v) - Math.sin(n * u / 2.0) * Math.sin(2 * v)) * Math.sin(m * u / 2.0);
-  let z = Math.sin(n * u / 2.0) * Math.sin(v) + Math.cos(n * u / 2.0) * Math.sin(2 * v);
+  let x =
+    (a +
+      Math.cos((n * u) / 2.0) * Math.sin(v) -
+      Math.sin((n * u) / 2.0) * Math.sin(2 * v)) *
+    Math.cos((m * u) / 2.0);
+  let y =
+    (a +
+      Math.cos((n * u) / 2.0) * Math.sin(v) -
+      Math.sin((n * u) / 2.0) * Math.sin(2 * v)) *
+    Math.sin((m * u) / 2.0);
+  let z =
+    Math.sin((n * u) / 2.0) * Math.sin(v) +
+    Math.cos((n * u) / 2.0) * Math.sin(2 * v);
 
   target.set(x, y, z);
 };
@@ -77,7 +94,7 @@ const torFunction = (u, v, target) => {
 
 const sketch = ({ context }) => {
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // WebGL background color
@@ -98,18 +115,25 @@ const sketch = ({ context }) => {
   //const geometry = new THREE.PlaneGeometry(1, 1, 10, 10);
 
   const geometry = new THREE.ParametricBufferGeometry(torFunction, 100, 100);
-  const geometry1 = new THREE.ParametricBufferGeometry(graykleinFunction, 100, 100);
-  geometry.setAttribute('position1', new THREE.BufferAttribute(geometry1.attributes.position.array, 3));
+  const geometry1 = new THREE.ParametricBufferGeometry(
+    graykleinFunction,
+    100,
+    100
+  );
+  geometry.setAttribute(
+    "position1",
+    new THREE.BufferAttribute(geometry1.attributes.position.array, 3)
+  );
 
   // Setup a material
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      time: { value: 0 }
+      time: { value: 0 },
       //color: { value: new THREE.Color("#ff665e") }
     },
     //wireframe: true,
     vertexShader: vertex,
-    fragmentShader: fragment
+    fragmentShader: fragment,
   });
 
   // Setup a mesh with geometry + material
@@ -135,10 +159,8 @@ const sketch = ({ context }) => {
     unload() {
       controls.dispose();
       renderer.dispose();
-    }
+    },
   };
-
 };
 
 canvasSketch(sketch, settings);
-

@@ -7,19 +7,19 @@ import vertex from "./utils/s3e20/shaders/vertex.glsl";
 const canvasSketch = require("canvas-sketch");
 
 const settings = {
-  dimensions: [800, 800],   // 1000/1920
+  dimensions: [800, 800], // 1000/1920
   animate: true,
   duration: 10,
   context: "webgl",
   attributes: {
-    antialias: true
-  }
+    antialias: true,
+  },
 };
 
 const sketch = ({ context }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // WebGL background color
@@ -42,7 +42,7 @@ const sketch = ({ context }) => {
   shape.moveTo(0.0, 0.2);
 
   for (let i = 0; i <= n; i++) {
-    let theta = 2 * Math.PI * i / n;
+    let theta = (2 * Math.PI * i) / n;
     let r = 0.2 + 0.2 * Math.sin(2 * theta) ** 2;
     let x = r * Math.sin(theta);
     let y = r * Math.cos(theta);
@@ -52,7 +52,7 @@ const sketch = ({ context }) => {
   const extrudeSettings = {
     steps: 150,
     depth: 40,
-    bevelEnabled: false
+    bevelEnabled: false,
   };
 
   const geometry = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings);
@@ -61,18 +61,18 @@ const sketch = ({ context }) => {
   const shdrmaterial = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
-      playhead: { value: 0 }
+      playhead: { value: 0 },
       // color: { value: new THREE.Color("tomato") }
     },
     wireframe: false,
     side: THREE.DoubleSide,
     vertexShader: vertex,
-    fragmentShader: fragment
+    fragmentShader: fragment,
   });
 
-  // setup a normal material 
+  // setup a normal material
   const material = new THREE.MeshNormalMaterial({
-    side: THREE.DoubleSide
+    side: THREE.DoubleSide,
   });
 
   // Setup a mesh with geometry + material
@@ -102,7 +102,7 @@ const sketch = ({ context }) => {
     unload() {
       controls.dispose();
       renderer.dispose();
-    }
+    },
   };
 };
 

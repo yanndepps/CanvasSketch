@@ -11,14 +11,14 @@ const settings = {
   duration: 6,
   context: "webgl",
   attributes: {
-    antialias: true
-  }
+    antialias: true,
+  },
 };
 
 const sketch = ({ context }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas
+    canvas: context.canvas,
   });
 
   // WebGL background color
@@ -49,9 +49,7 @@ const sketch = ({ context }) => {
 
     let z = Math.cos(0);
 
-    dots.push(
-      new THREE.Vector3(x, y, z)
-    )
+    dots.push(new THREE.Vector3(x, y, z));
   }
 
   // curve from circle shape
@@ -62,13 +60,13 @@ const sketch = ({ context }) => {
   // setup a shader material
   const shdrMaterial = new THREE.ShaderMaterial({
     uniforms: {
-      playhead: { value: 0.0 }
+      playhead: { value: 0.0 },
     },
     wireframe: false,
     vertexShader: vertex,
     fragmentShader: fragment,
     side: THREE.DoubleSide,
-    transparent: true
+    transparent: true,
   });
 
   // Setup a mesh with geometry + material
@@ -96,7 +94,7 @@ const sketch = ({ context }) => {
     unload() {
       controls.dispose();
       renderer.dispose();
-    }
+    },
   };
 };
 
