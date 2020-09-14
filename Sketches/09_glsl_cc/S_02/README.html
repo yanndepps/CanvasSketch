@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>README.html</title>
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"  />
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css"  /><meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'><style> body { box-sizing: border-box; max-width: 740px; width: 100%; margin: 40px auto; padding: 0 10px; } </style><script src='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js'></script><script>document.addEventListener('DOMContentLoaded', () => { document.body.classList.add('markdown-body'); document.querySelectorAll('pre[lang] > code').forEach((code) => { code.classList.add(code.parentElement.lang); }); document.querySelectorAll('pre > code').forEach((code) => { hljs.highlightBlock(code); }); });</script>
+</head>
+
+<body>
+
+<h1 id="notes">Notes</h1>
+<ul>
+<li><a href="#notes">Notes</a></li>
+<li><a href="#part-01">part-01</a></li>
+<li><a href="#part-02">part-02</a></li>
+<li><a href="#part-03">part-03</a></li>
+<li><a href="#part-04">part-04</a></li>
+<li><a href="#part-05">part-05</a></li>
+<li><a href="#part-06">part-06</a></li>
+<li><a href="#part-07">part-07</a></li>
+</ul>
+<h1 id="part-01">part-01</h1>
+<ul>
+<li>we need a vertex shader and a fragment shader and each of these must have a main function.</li>
+<li>the vertex shader main function must set the value of gl_Position and it uses the projectionMatrix, the modelViewMatrix and the position of the vertex to do this.</li>
+<li>the fragment shader main function must set the value of gl_FragColor to a rgba format value.</li>
+<li>each channel of a rgba format color takes a value between 0.0 and 1.0.</li>
+</ul>
+<h1 id="part-02">part-02</h1>
+<ul>
+<li>jumbling the elements of a vec variable is called swizzling : color.grba -&gt; swaps the red and green channels.</li>
+</ul>
+<h1 id="part-03">part-03</h1>
+<ul>
+<li>Uniforms pass data between the control program and the shaders.</li>
+<li>Each uniform will store a common value for each vertex &amp; pixel.</li>
+<li>u_mouse stores the x, y location of the mouse.</li>
+<li>u_mouse stores the mouse coordinates</li>
+<li>u_resolution stores the pixel size of the window</li>
+</ul>
+<pre><code>u_mouse.x = u_mouse[0]</code></pre>
+<ul>
+<li>Vector Opererations:</li>
+<li>vec2 v = u_mouse/u_resolution results in :</li>
+</ul>
+<pre><code>v.x = u_mouse.x/u_resolution.x
+v.y = u_mouse.y/u_resolution.y</code></pre>
+<h1 id="part-04">part-04</h1>
+<ul>
+<li>gl_FragCoord is a vec4 type which provides the coordinates of the current pixel.</li>
+<li>it has x, y, z and w values.</li>
+<li>remember that u_resolution provides the pixels of the window.</li>
+<li>the mix method :
+<ul>
+<li>takes 3 parameters : mix(x, y, a)</li>
+</ul>
+<pre><code>mix(x, y, 0.0) = x
+mix(x, y, 1.0) = y</code></pre></li>
+<li>x * (1-a) + y * a -&gt; linear interpolation</li>
+<li>x and y can be floats, vec2, vec3 or vec4 values but :
+<ul>
+<li>x, y and return type must be the same.</li>
+</ul></li>
+<li>mix(x, y, a)</li>
+</ul>
+<pre><code>x = vec3(1.0, 0.0, 0.0) -&gt; red 
+y = vec3(0.0, 0.0, 1.0) -&gt; blue
+a = uv.y -&gt; value between 0.0 and 1.0 </code></pre>
+<ul>
+<li>suppose a with a value of 0.25 :</li>
+</ul>
+<pre><code>mix(x,y,a) = x * (1-a) + y * a
+x * (1.0 - 0.25) + y * 0.25 = x * 0.75 + y * 0.25
+vec3(1.0, 0.0, 0.0) * 0.75 + vec3(0.0, 0.0, 1.0) * 0.25
+vec3(0.75, 0.0, 0.0) + vec3(0.0, 0.0, 0.25) = vec3(0.75, 0.0, 0.25)</code></pre>
+<h1 id="part-05">part-05</h1>
+<ul>
+<li>pass values into the shaders using uniforms.</li>
+<li>those values can be integers, floats, vectors or images.</li>
+<li>it must be delared : name and type + the keyword uniform.</li>
+<li>a varying is a variable that we pass from the vertex to the fragment shader.</li>
+<li>how can we get the uv in a fragment shader ?</li>
+<li>we use varying value.</li>
+<li>varying vec2 v_uv</li>
+</ul>
+<h1 id="part-06">part-06</h1>
+<ul>
+<li><strong>clamp</strong> constrains a value between a <em>min</em> and a <em>max</em> value.</li>
+<li><strong>colors</strong> in GLSL : each channel takes a value between 0.0 and 1.0</li>
+<li>clamp take 3 parameters : <strong>clamp(n, min, max)</strong></li>
+</ul>
+<pre><code>clamp(2.0, 0.0 1.0) -&gt; 1.0 
+
+clamp(-1.0, 0.0, 1.0) -&gt; 0.0 
+
+clamp(0.5, 0.0, 1.0) -&gt; 0.5</code></pre>
+<h1 id="part-07">part-07</h1>
+<ul>
+<li><strong>step</strong> returns 0.0 or 1.0 by comparing two values</li>
+<li><strong>step</strong> takes 2 parameters : <strong>step(edge, n)</strong></li>
+<li>if n &lt; edge -&gt; 0.0 is returned</li>
+<li>if n &gt; edge -&gt; 1.0 is returned</li>
+<li><strong>smoothstep</strong> is an interpolation between two values</li>
+<li>it takes 3 parameters : <strong>smoothstep(edge0, edge1, n)</strong></li>
+<li>if n &lt; edge0 -&gt; 0.0 is returned</li>
+<li>if n &gt; edge1 -&gt; 1.0 is returned</li>
+</ul>
+
+</body>
+</html>
