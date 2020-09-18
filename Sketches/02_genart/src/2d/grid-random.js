@@ -6,7 +6,7 @@ const settings = {
   dimensions: [ 2048, 2048 ]
 };
 
-const sketch = () => {
+const sketch = ({ width, height }) => {
   const createGrid = () => {
     // create a list of points
     const points = [];
@@ -31,15 +31,15 @@ const sketch = () => {
   // const points = createGrid().filter(() => Math.random() > 0.5);
   // now use the random module instead
   // and make use of a deterministic seed
-  random.setSeed(10);
+  random.setSeed(15);
   const points = createGrid().filter(() => random.value() > 0.5);
   // define a margin
-  const margin = 350;
+  const margin = width * 0.171;
   // return an array of arrays from 0 to 1
   // console.log(points);
 
   // main return
-  return ({ context, width, height }) => {
+  return ({ context }) => {
     // avoid a transparent PNG
     context.fillStyle = '#333';
     context.fillRect(0, 0, width, height);
@@ -57,7 +57,7 @@ const sketch = () => {
 
       // draw some circles at position
       context.beginPath();
-      context.arc(x, y, 3, 0, Math.PI*2, false);
+      context.arc(x, y, 4, 0, Math.PI*2, false);
       // stroke .. or not
       // context.strokeStyle = 'white';
       // context.lineWidth = 3;

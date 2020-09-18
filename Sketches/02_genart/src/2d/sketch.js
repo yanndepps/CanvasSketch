@@ -16,13 +16,14 @@ const sketch = () => {
     context.fillRect(0, 0, width, height);
     // draw a circle
     context.beginPath();
-    context.arc(width/2, height * 0.5, 2, 0, Math.PI*2, false);
+    context.arc(width/2, height * 0.5, 4, 0, Math.PI*2, false);
     // fill the circle
     context.fillStyle = 'red';
     context.fill();
     // give it a stroke with thickness and color
     context.strokeStyle = 'black';
-    context.lineWidth = width * 0.02;
+    context.lineWidth = width * 0.01;
+    // console.log(context.lineWidth);
     context.stroke();
   };
 };

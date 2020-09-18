@@ -4,19 +4,27 @@ const random = require('canvas-sketch-util/random');
 const palettes = require('nice-color-palettes');
 
 const settings = {
-  dimensions: [ 2048, 2048 ]
+  // dimensions: [ 2048, 2048 ]
+  dimensions: [ 21, 21 ],
+  // dimensions: 'A4',
+  // orientation: 'portrait',
+  units: 'cm',
+  pixelsPerInch: 300
 };
 
-const sketch = () => {
+random.setSeed(761);
+
+const sketch = ({ width, height }) => {
   // choose a random palette and a random number of colors from 1 to 5
-  const colorCount = 3;
-  const palette = random.pick(palettes).slice(0, colorCount);
+  // const colorCount = 5;
+  // const palette = random.pick(palettes).slice(0, colorCount);
 
   // more color choices and randomness 
-  // const colorCount = random.rangeFloor(1, 6);
-  // const palette = random.shuffle(random.pick(palettes))
-                        // .slice(0, colorCount);
-  console.log(palette);
+  const colorCount = random.rangeFloor(2, 6);
+  const palette = random.shuffle(random.pick(palettes))
+                        .slice(0, colorCount);
+
+  // console.log(palette);
 
   const createGrid = () => {
     // create a list of points
@@ -28,10 +36,11 @@ const sketch = () => {
         // pixel coordinates for each grid points
         const u = count <= 1 ? 0.5 : x / ( count - 1 );
         const v = count <= 1 ? 0.5 : y / ( count - 1 );
+        const mul = 0.01;
         points.push({
           // pick a random color from our single palette
           color: random.pick(palette), 
-          radius: Math.abs( 0.01 + random.gaussian() * 0.01 ),
+          radius: Math.abs( mul + random.gaussian() * mul ),
           position: [u, v]
         });
       }
@@ -40,13 +49,15 @@ const sketch = () => {
     return points;
   };
   
-  random.setSeed(5);
   const points = createGrid().filter(() => random.value() > 0.5);
-  const margin = 350;
+  // const margin = width * 0.143;
+  const margin = width * 0.143;
 
   // main return / render function 
-  return ({ context, width, height }) => {
-    context.fillStyle = 'white';
+  return ({ context }) => {
+    // context.fillStyle = '#1c1c1c';
+    context.fillStyle = palette[0];
+    // console.log(palette);
     context.fillRect(0, 0, width, height);
 
     points.forEach(data => {
@@ -59,8 +70,8 @@ const sketch = () => {
 
       const [u, v] = position;
       
-      const x = lerp(margin, width - margin, u); 
-      const y = lerp(margin, height - margin, v); 
+      const x = lerp(margin, width - margin, u);
+      const y = lerp(margin, height - margin, v);
 
       // draw some circles at position
       context.beginPath();

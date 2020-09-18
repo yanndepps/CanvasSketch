@@ -5,7 +5,7 @@ const settings = {
   dimensions: [ 2048, 2048 ]
 };
 
-const sketch = () => {
+const sketch = ({ width, height }) => {
   const createGrid = () => {
     // create a list of points
     const points = [];
@@ -29,12 +29,13 @@ const sketch = () => {
   // call to our grid function
   const points = createGrid();
   // define a margin
-  const margin = 350;
+  // const margin = 350;
+  const margin = width * 0.171;
   // return an array of arrays from 0 to 1
   // console.log(points);
 
   // main return
-  return ({ context, width, height }) => {
+  return ({ context }) => {
     // avoid a transparent PNG
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);

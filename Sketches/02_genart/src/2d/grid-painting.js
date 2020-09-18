@@ -3,18 +3,30 @@ const { lerp } = require('canvas-sketch-util/math');
 const random = require('canvas-sketch-util/random');
 const palettes = require('nice-color-palettes/1000.json');
 
+random.setSeed(14303);
+// random.setSeed(random.getRandomSeed());
+// console.log(random.getSeed());
+
 const settings = {
-  dimensions: [ 2048, 2048 ]
+  suffix: random.getSeed(),
+  // dimensions: [ 2048, 2048 ]
+  dimensions: [ 21, 21 ],
+  // dimensions: 'A4',
+  // orientation: 'portrait',
+  units: 'cm',
+  pixelsPerInch: 300
 };
 
 const sketch = ({ width, height }) => {
-  const count = 40;
+  const count = 80;
   const margin = width * 0.15;
   const maxColors = random.rangeFloor(2, 6);
   const fontFamily = '"Andale Mono"';
   const palette = random.shuffle(random.pick(palettes)).slice(0, maxColors);
-  const background = 'hsl(0, 0%, 94%)';
-  const characters = '=.'.split('');
+  // const background = 'hsl(0, 0%, 94%)';
+  // const characters = '=.'.split('');
+  // digraph hebrew dalet (D+)
+  const characters = 'ד'.split('');
 
   const createGrid = () => {
     const points = [];
@@ -22,8 +34,8 @@ const sketch = ({ width, height }) => {
 
     for (let x = 0; x < count; x++) {
       for (let y = 0; y < count; y++) {
-        let u = x / (count - 1);
-        let v = y / (count - 1);
+        let u = count <= 1 ? 0.5 : x / (count - 1);
+        let v = count <= 1 ? 0.5 : y / (count - 1);
 
         const [ dx, dy ] = random.insideSphere(0.05);
         u += dx;
@@ -31,8 +43,9 @@ const sketch = ({ width, height }) => {
 
         const n = random.noise2D(u * frequency, v * frequency);
         const size = n * 0.5 + 0.5;
-        const baseSize = width * 0.05;
-        const sizeOffset = width * 0.05;
+        const mul = 0.05;
+        const baseSize = width * mul;
+        const sizeOffset = width * mul;
 
         points.push({
           color: random.pick(palette),
@@ -48,8 +61,9 @@ const sketch = ({ width, height }) => {
 
   const grid = createGrid();
 
-  return ({ context, width, height }) => {
-    context.fillStyle = background;
+  return ({ context }) => {
+    // context.fillStyle = background;
+    context.fillStyle = palette[0];
     context.fillRect(0, 0, width, height);
 
     grid.forEach(({ position, rotation, size, color, character }) => {
