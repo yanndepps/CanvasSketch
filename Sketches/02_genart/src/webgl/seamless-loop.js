@@ -3,31 +3,23 @@ const random = require('canvas-sketch-util/random');
 const palettes = require('nice-color-palettes');
 const eases = require('eases');
 const BezierEasing = require('bezier-easing');
-
-// Ensure ThreeJS is in global scope for the 'examples/'
 global.THREE = require('three');
-
-// Include any additional ThreeJS examples below
 require('three/examples/js/controls/OrbitControls');
 
 const settings = {
-  // Frame it
   dimensions: [512, 512],
   fps: 24,
   playbackRate: 'throttle',
   duration: 4,
-  // Make the loop animated
   animate: true,
-  // Get a WebGL canvas rather than 2D
   context: 'webgl',
-  // Turn on MSAA
-  attributes: { antialias: true }
+  attributes: { antialias: true },
 };
 
 const sketch = ({ context }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
-    context
+    context,
   });
 
   // WebGL background color
@@ -42,10 +34,10 @@ const sketch = ({ context }) => {
     const mesh = new THREE.Mesh(
       box,
       new THREE.MeshPhysicalMaterial({
-        color: random.pick(palette), 
+        color: random.pick(palette),
         metalness: 0,
         roughness: 1,
-        flatShading: true
+        flatShading: true,
       })
     );
     // set a random position for each of these cubes
@@ -59,12 +51,12 @@ const sketch = ({ context }) => {
     mesh.scale.set(
       random.range(-1, 1),
       random.range(-1, 1),
-      random.range(-1, 1),
+      random.range(-1, 1)
     );
 
     // scale our meshes down a bit
     mesh.scale.multiplyScalar(0.5);
-    
+
     scene.add(mesh);
   }
 
@@ -75,12 +67,12 @@ const sketch = ({ context }) => {
   scene.add(light);
 
   // bezier easing function
-  const easeFn = BezierEasing(.17,.67,.83,.67);
+  const easeFn = BezierEasing(0.17, 0.67, 0.83, 0.67);
 
   // draw each frame
   return {
     // Handle resize events here
-    resize ({ pixelRatio, viewportWidth, viewportHeight }) {
+    resize({ pixelRatio, viewportWidth, viewportHeight }) {
       renderer.setPixelRatio(pixelRatio);
       renderer.setSize(viewportWidth, viewportHeight);
       // aspect ratio while using ortho camera
@@ -107,18 +99,18 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render ({ playhead }) {
-      const t = Math.sin( playhead * Math.PI );
+    render({ playhead }) {
+      const t = Math.sin(playhead * Math.PI);
       // using eases module
-      // scene.rotation.z = eases.expoInOut(t); 
+      // scene.rotation.z = eases.expoInOut(t);
       // using bezier easing
-      scene.rotation.z = easeFn(t); 
+      scene.rotation.z = easeFn(t);
       renderer.render(scene, camera);
     },
     // Dispose of events & renderer for cleaner hot-reloading
-    unload () {
+    unload() {
       renderer.dispose();
-    }
+    },
   };
 };
 

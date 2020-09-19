@@ -1,18 +1,11 @@
 const canvasSketch = require('canvas-sketch');
-
-// Ensure ThreeJS is in global scope for the 'examples/'
 global.THREE = require('three');
-
-// Include any additional ThreeJS examples below
 require('three/examples/js/controls/OrbitControls');
 
 const settings = {
   dimensions: [ 2048, 2048 ],
-  // Make the loop animated
   animate: true,
-  // Get a WebGL canvas rather than 2D
   context: 'webgl',
-  // Turn on MSAA
   attributes: { antialias: true }
 };
 

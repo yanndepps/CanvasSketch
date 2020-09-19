@@ -12,6 +12,7 @@
     "canvas-sketch": "^0.6.1",
     "canvas-sketch-util": "^1.8.0",
     "eases": "^1.0.8",
+    "gl-matrix": "^3.3.0",
     "glsl-hsl2rgb": "^1.1.0",
     "glsl-noise": "0.0.0",
     "nice-color-palettes": "^3.0.0",

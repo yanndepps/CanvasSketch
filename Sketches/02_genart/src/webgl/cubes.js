@@ -1,32 +1,23 @@
 const canvasSketch = require('canvas-sketch');
 const random = require('canvas-sketch-util/random');
 const palettes = require('nice-color-palettes');
-
-// Ensure ThreeJS is in global scope for the 'examples/'
 global.THREE = require('three');
-
-// Include any additional ThreeJS examples below
 require('three/examples/js/controls/OrbitControls');
 
 const settings = {
-  // Frame it
   dimensions: [2048, 2048],
-  // Make the loop animated
   animate: true,
-  // Get a WebGL canvas rather than 2D
   context: 'webgl',
-  // Turn on MSAA
   attributes: { antialias: true }
 };
 
 const sketch = ({ context }) => {
-  // Create a renderer
   const renderer = new THREE.WebGLRenderer({
     context
   });
 
   // WebGL background color
-  renderer.setClearColor('hsl(0, 0%, 95%)', 1);
+  renderer.setClearColor('hsl(0, 0%, 25%)', 1);
 
   const camera = new THREE.OrthographicCamera();
   const scene = new THREE.Scene();
@@ -99,7 +90,7 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render ({ time }) {
+    render () {
       renderer.render(scene, camera);
     },
     // Dispose of events & renderer for cleaner hot-reloading

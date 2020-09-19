@@ -1,32 +1,27 @@
 const canvasSketch = require('canvas-sketch');
 const random = require('canvas-sketch-util/random');
-
-// Ensure ThreeJS is in global scope for the 'examples/'
 global.THREE = require('three');
-
-// Include any additional ThreeJS examples below
 require('three/examples/js/controls/OrbitControls');
+const palettes = require('nice-color-palettes');
 
 const settings = {
-  // Frame it
   dimensions: [2048, 2048],
-  // Make the loop animated
   animate: true,
-  // Get a WebGL canvas rather than 2D
   context: 'webgl',
-  // Turn on MSAA
   attributes: { antialias: true }
 };
 
 const sketch = ({ context }) => {
-  // Create a renderer
   const renderer = new THREE.WebGLRenderer({
     context
   });
 
-  // WebGL background color
+  const colorCount = random.rangeFloor(2, 6);
+  const palette = random.shuffle(random.pick(palettes))
+                        .slice(0, colorCount);
+
   // use of hsl for a off-white color
-  renderer.setClearColor('hsl(0, 0%, 95%)', 1);
+  renderer.setClearColor('hsl(0, 0%, 35%)', 1);
 
   // Setup a camera
   const camera = new THREE.OrthographicCamera();
@@ -41,7 +36,8 @@ const sketch = ({ context }) => {
     const mesh = new THREE.Mesh(
       box,
       new THREE.MeshBasicMaterial({
-        color: '#fd7272',
+        // color: '#fd7272',
+        color: random.pick(palette),
       })
     );
     // set a random position for each of these cubes
@@ -53,7 +49,7 @@ const sketch = ({ context }) => {
     );
 
     // scale our meshes down a bit
-    mesh.scale.multiplyScalar(0.1);
+    mesh.scale.multiplyScalar(0.3);
     
     scene.add(mesh);
   }
@@ -89,7 +85,7 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render ({ time }) {
+    render () {
       renderer.render(scene, camera);
     },
     // Dispose of events & renderer for cleaner hot-reloading
