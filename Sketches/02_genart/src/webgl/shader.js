@@ -4,10 +4,14 @@ const glsl = require('glslify');
 
 // Setup our sketch
 const settings = {
-  dimensions: [ 2048, 2048 ],
+  // dimensions: [ 2048, 2048 ],
+  dimensions: [21, 21],
+  units: 'cm',
+  pixelsPerInch: 300,
   exportPixelRatio: 2,
   context: 'webgl',
-  animate: true
+  animate: true,
+  attributes: { antialias: true }
 };
 
 // Your glsl code
@@ -20,7 +24,7 @@ const frag = glsl(/* glsl */`
 
   void main () {
     // mix (lerp) two colors
-    vec3 col_a = vec3(1.0, 0.5, 1.0);
+    vec3 col_a = sin(time * 2.0) + vec3(1.0, 0.5, 1.0);
     vec3 col_b = vec3(1.0, 0.6, 0.4);
     // get a vector from current UV to (0.5, 0.5)
     vec2 center = vUv - 0.5;
@@ -29,7 +33,7 @@ const frag = glsl(/* glsl */`
     // get length of the vector (radius of polar coordinate)
     float dist = length(center);
     // create a "mask" circle
-    float mask = smoothstep(0.2025, 0.2, dist);
+    float mask = smoothstep(0.75 + sin(time), 0.25, dist);
     // our color(s)
     // vec3 color = 0.5 + 0.5 * cos(time + vUv.xyx + vec3(0.0, 2.0, 4.0));
     vec3 color = mix(col_a, col_b, vUv.y + vUv.x * sin(time));
@@ -43,7 +47,7 @@ const sketch = ({ gl }) => {
   // Create the shader and return it
   return createShader({
     // background color (if false will create a transparent background at export)
-    clearColor: 'hsl(0, 0%, 85%)',
+    clearColor: 'hsl(0, 0%, 15%)',
     // Pass along WebGL context
     gl,
     // Specify fragment and/or vertex shader strings

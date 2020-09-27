@@ -1,42 +1,39 @@
+// @ts-nocheck
 const canvasSketch = require('canvas-sketch');
 const random = require('canvas-sketch-util/random');
 const palettes = require('nice-color-palettes');
 const eases = require('eases');
 const BezierEasing = require('bezier-easing');
 const glslify = require('glslify');
-
-// Ensure ThreeJS is in global scope for the 'examples/'
 global.THREE = require('three');
-
-// Include any additional ThreeJS examples below
 require('three/examples/js/controls/OrbitControls');
 
 const settings = {
-  dimensions: [512, 512],
+  dimensions: [21, 21],
+  units: 'cm',
+  pixelsPerInch: 300,
+  exportPixelRatio: 2,
   fps: 24,
   playbackRate: 'throttle',
   duration: 4,
   animate: true,
-  // Get a WebGL canvas rather than 2D
   context: 'webgl',
-  // Turn on MSAA
   attributes: { antialias: true }
 };
 
 const sketch = ({ context }) => {
-  // Create a renderer
   const renderer = new THREE.WebGLRenderer({
     context
   });
 
   // WebGL background color
-  renderer.setClearColor('hsl(0, 0%, 95%)', 1);
+  renderer.setClearColor('hsl(0, 0%, 25%)', 1);
 
   const camera = new THREE.OrthographicCamera();
   const scene = new THREE.Scene();
   // const box = new THREE.BoxGeometry(1, 1, 1);
   // box.computeFlatVertexNormals();
-  const geometry = new THREE.DodecahedronGeometry(1, 0);
+  const geometry = new THREE.DodecahedronGeometry(1, 1);
   geometry.computeFlatVertexNormals();
   const meshes = [];
   const palette = random.pick(palettes);
@@ -69,7 +66,7 @@ const sketch = ({ context }) => {
     }
 `);
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 10; i++) {
     const mesh = new THREE.Mesh(
       // box,
       geometry,
@@ -111,19 +108,19 @@ const sketch = ({ context }) => {
   scene.add(light);
 
   // bezier easing function
-  const easeFn = BezierEasing(0,0,1,1);
+  const easeFn = BezierEasing(0, 0, 1, 1);
 
   // draw each frame
   return {
     // Handle resize events here
-    resize ({ pixelRatio, viewportWidth, viewportHeight }) {
+    resize({ pixelRatio, viewportWidth, viewportHeight }) {
       renderer.setPixelRatio(pixelRatio);
       renderer.setSize(viewportWidth, viewportHeight);
       // aspect ratio while using ortho camera
       const aspect = viewportWidth / viewportHeight;
 
       // Ortho zoom
-      const zoom = 2.25;
+      const zoom = 4;
 
       // Bounds
       camera.left = -zoom * aspect;
@@ -143,17 +140,17 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render ({ playhead, time }) {
-      const t = Math.sin( playhead * Math.PI );
-      scene.rotation.x = easeFn(t); 
+    render({ playhead, time }) {
+      const t = Math.sin(playhead * Math.PI * 2);
+      // scene.rotation.x = easeFn(t);
       meshes.forEach(mesh => {
-        mesh.material.uniforms.time.value = time;
+        mesh.material.uniforms.time.value = eases.elasticInOut(t);
         mesh.rotation.z = 0.1 * time;
       });
       renderer.render(scene, camera);
     },
     // Dispose of events & renderer for cleaner hot-reloading
-    unload () {
+    unload() {
       renderer.dispose();
     }
   };
