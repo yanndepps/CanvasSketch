@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+// @ts-ignore
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
 let palettes = require("nice-color-palettes");

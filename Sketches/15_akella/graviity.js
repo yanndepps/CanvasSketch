@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // @ts-nocheck
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");

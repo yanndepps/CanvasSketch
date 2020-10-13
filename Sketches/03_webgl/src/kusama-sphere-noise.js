@@ -99,7 +99,7 @@ const sketch = ({ context }) => {
     },
     // Update & render your scene here
     render({ time }) {
-      material.uniforms.time.value = time;
+      material.uniforms.time.value = time * Math.PI * 2;
       controls.update();
       renderer.render(scene, camera);
     },

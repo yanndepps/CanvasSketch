@@ -162,7 +162,7 @@ const sketch = ({ context, width, height }) => {
   };
 
   const timerCallback = () => {
-    // console.log('timer callback')
+    console.log('timer callback')
     if (video.paused || video.ended) {
       return;
     }

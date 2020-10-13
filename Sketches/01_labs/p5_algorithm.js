@@ -10,13 +10,9 @@ const settings = {
   p5: true,
   dimensions: [ 512, 512 ],
   animate: true,
-  loop: true,
-  fps: 24,
+  // loop: true,
+  // fps: 24,
   context: '2d',
-  // duration: 4,
-  attributes: {
-    antialias: true
-  }
 };
 
 const initialLines = 100;

@@ -40,7 +40,7 @@ canvasSketch(({  width, height }) => {
   };
 
 drawPg = () => {
-  pg.background('#f1f1f1');
+  pg.background('#1c1c1c');
   pg.imageMode(CENTER);
   pg.push();
   pg.translate(pg.width/2, pg.height/2);
@@ -100,20 +100,20 @@ drawPg2 = () => {
     i1 = pg.get();
     i2 = pg2.get();
 
-    const tilesX = pg.width/6;
-    const tilesY = pg.height/6;
+    const tilesX = pg.width/16;
+    const tilesY = pg.height/16;
     const tileW = pg.width/tilesX;
     const tileH = pg.height/tilesY;
 
     // loop through our pixels
     for (let x = 0; x < tilesX; x++) {
       for (let y = 0; y < tilesY; y++) {
-        const c1 = i1.get(int(x * tileW), int(y * tileH));
-        const c2 = i2.get(int(x * tileW), int(y * tileH));
-        const ca = color(c1);
-        const cb = color(c2);
+        const c1 = color( i1.get(int(x * tileW), int(y * tileH)) );
+        const c2 = color( i2.get(int(x * tileW), int(y * tileH)) );
+        // const ca = color(c1);
+        // const cb = color(c2);
         const wave = map(sin(radians(frameCount * 3 + x * 0.3 + y * 0.3)), -1, 1, 0, 1);
-        const c3 = lerpColor(ca, cb, wave);
+        const c3 = lerpColor(c1, c2, wave);
         const bri = brightness(c3);
         const sizeW = map(bri, 0, 255, tileW, 0);
         const sizeH = map(bri, 0, 255, tileH, 0);

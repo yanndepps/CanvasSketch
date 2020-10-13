@@ -47,7 +47,7 @@ canvasSketch(() => {
 
   // attach events to window
   window.mouseClicked = () => {
-    console.log('mouse clicked');
+    // console.log('mouse clicked');
   };
 
   // DRAW

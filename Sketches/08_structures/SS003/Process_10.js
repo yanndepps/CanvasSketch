@@ -24,10 +24,7 @@ const settings = {
   orientation: 'landscape',
   pixelPerInch: 300,
   animate: true,
-  context: '2d',
-  attributes: {
-    antialias: true
-  }
+  context: '2d'
 };
 
 // optionally preload before loading the sketch
@@ -51,7 +48,8 @@ canvasSketch(() => {
     const yspeed = random(-0.25, 0.25);
     circles[i] = new Circle(x, y, r, xspeed, yspeed, i);
   }
-  background(255);
+  // background(255);
+  background('#1c1c1c');
 
   // attach events to window
   window.mouseClicked = () => {
@@ -134,7 +132,8 @@ function intersect(cA, cB) {
   const pbX = x2 - (h * (cB.y - cA.y)) / d;
   const pbY = y2 + (h * (cB.x - cA.x)) / d;
 
-  stroke(0, 5); // 10
+  // stroke(0, 5); // 10
+  stroke(255, 5); // 10
   // strokeWeight(sDim);
   line(paX, paY, pbX, pbY);
 }
