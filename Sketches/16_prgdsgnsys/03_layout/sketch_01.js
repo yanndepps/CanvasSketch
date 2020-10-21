@@ -4,6 +4,7 @@ new p5();
 
 const settings = {
   p5: true,
+  name: 'layout_01',
   // dimensions: [ 800, 800 ],
   dimensions: 'A4',
   orientation: 'portrait',
