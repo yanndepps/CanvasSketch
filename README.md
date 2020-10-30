@@ -13,3 +13,4 @@
   - [programming design systems](Sketches/16_prgdsgnsys/README.md)
   - [the nature of code](Sketches/12_tnoc/README.md)
   - [webgl glsl workshop](Sketches/03_webgl/README.md)
+  - [challenges](Sketches/25_challenges/README.md)
