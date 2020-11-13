@@ -41,7 +41,7 @@ canvasSketch(({ width, height }) => {
     noStroke();
     for (let y = 0; y < count; y++) {
       for (let x = 0; x < count; x++) {
-        const radius = Math.abs(rnd.gaussian(0, dim * 0.03));
+        const radius = Math.abs(rnd.gaussian(0, dim * 0.015));
         const fillCol = rnd.pick(palette);
         // fill(fillCol);
         fill('#f4f4f4');
