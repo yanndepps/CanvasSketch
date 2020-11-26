@@ -7,7 +7,7 @@ let rand = Math.floor(Math.random() * 100);
 rand = 24;
 let myColors = palettes[rand];
 let colors = myColors.map((color) => new THREE.Color(color));
-// console.log(colors);
+console.log(colors);
 const fragment = require("./utils/s3e30/shaders/fragment.glsl");
 const vertex = require("./utils/s3e30/shaders/vertex.glsl");
 const canvasSketch = require("canvas-sketch");
@@ -18,14 +18,14 @@ const settings = {
   duration: 2,
   context: "webgl",
   attributes: {
-    antialias: true,
-  },
+    antialias: true
+  }
 };
 
 const sketch = ({ context, width, height }) => {
   // Create a renderer
   const renderer = new THREE.WebGLRenderer({
-    canvas: context.canvas,
+    canvas: context.canvas
   });
 
   // WebGL background color
@@ -74,7 +74,7 @@ const sketch = ({ context, width, height }) => {
   let material = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide });
   const shdrmat = new THREE.ShaderMaterial({
     extensions: {
-      derivatives: "#extension GL_OES_standard_derivatives : enable",
+      derivatives: "#extension GL_OES_standard_derivatives : enable"
     },
     side: THREE.DoubleSide,
     uniforms: {
@@ -83,13 +83,13 @@ const sketch = ({ context, width, height }) => {
       resolution: { type: "v4", value: new THREE.Vector4() },
       colors: { type: "fv1", value: colors },
       uvRate1: {
-        value: new THREE.Vector2(1, 1),
-      },
+        value: new THREE.Vector2(1, 1)
+      }
     },
     wireframe: false,
     transparent: false,
     vertexShader: vertex,
-    fragmentShader: fragment,
+    fragmentShader: fragment
   });
 
   let mesh = new THREE.Mesh(geometry, shdrmat);
@@ -116,7 +116,7 @@ const sketch = ({ context, width, height }) => {
     unload() {
       controls.dispose();
       renderer.dispose();
-    },
+    }
   };
 };
 
