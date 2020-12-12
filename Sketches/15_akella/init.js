@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
 const fragment = require("./utils/inits/fragment.glsl");
@@ -8,6 +9,9 @@ const settings = {
   dimensions: [512, 512],
   animate: true,
   context: "webgl",
+  attributes: {
+    antialias: true,
+  },
 };
 
 const sketch = ({ context }) => {

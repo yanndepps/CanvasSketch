@@ -1,0 +1,27 @@
+<html>
+<head>
+<script>
+
+  function test() {
+    var canvas = document.getElementById("sandbox");
+    gl = canvas.getContext("webgl");
+
+    if (!gl)
+      console.error("WebGL failed to initialize");
+    else
+      console.debug("WebGL initialization successful");
+
+    var extension = gl.getExtension("OES_standard_derivatives");
+
+    if (!extension)
+      console.error("Extension 'OES_standard_derivatives' was not found");
+    else
+      console.debug("Extension 'OES_standard_derivatives' was found");
+  }
+
+</script>
+</head>
+<body onload="test();">
+  <canvas id="sandbox" width="500" height="500" />
+</body>
+</html>

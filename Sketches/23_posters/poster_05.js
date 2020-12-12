@@ -10,11 +10,14 @@ const settings = {
   context: '2d',
   prefix: 'poster_04',
   pixelsPerInch: 300,
-  // units: 'cm',
+  units: 'cm',
+  dimensions: 'A4',
   // dimensions: [ 21, 21 ],
-  dimensions: [ 400, 400 ],
+  // dimensions: [ 400, 400 ],
 };
 
+rnd.setSeed(23);
+// ---
 const colorCount = rnd.rangeFloor(2,6);
 const palette = rnd.shuffle(rnd.pick(palettes)).slice(0, colorCount);
 const bg = palette.shift();
@@ -24,12 +27,12 @@ canvasSketch(({ width, height }) => {
   // --
   const dim = Math.min(width, height);
   const r = dim * 0.075;
-  console.log('r:', r);
+  // console.log('r:', r);
   // console.log('dim:', dim);
   // --
   let arr = [];
   let margin = dim * 0.1; // 40
-  let col = dim * 0.08; // 32
+  let col = dim * 1.5; // 32
   let gapX = dim * 0.02; // 8
   let gapY = dim * 0.0125; // 5
   let minH = dim * 0.0125; // 5
@@ -39,7 +42,7 @@ canvasSketch(({ width, height }) => {
   // --
   // setup
   yLimit = height - margin;
-  rectWidth = ((width - margin * 2) - (gapX * (col - 1))) / col;
+  rectWidth = ((width - margin * 2) - (gapX * (col - 0.4))) / col;
   for (let i = 0; i < col; i++) {
     arr.push([]);
   }
