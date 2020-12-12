@@ -2,8 +2,8 @@
 /* eslint-disable no-undef */
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
-const fragment = require("./utils/s3e48/shaders/fragment.glsl");
-const vertex = require("./utils/s3e48/shaders/vertex.glsl");
+const fragment = require("../utils/s3e48/shaders/fragment.glsl");
+const vertex = require("../utils/s3e48/shaders/vertex.glsl");
 const dat = require("dat.gui");
 const canvasSketch = require("canvas-sketch");
 
@@ -31,8 +31,8 @@ const sketch = ({ context, width, height }) => {
      setprog = {
       progress: 0,
     };
-    const gui = new dat.GUI();
-    gui.add(setprog, "progress", 0, 1, 0.01);
+    // const gui = new dat.GUI();
+    // gui.add(setprog, "progress", 0, 1, 0.01);
   }
 
   setGui();
@@ -75,8 +75,8 @@ const sketch = ({ context, width, height }) => {
   // shader material
   const loader = new THREE.TextureLoader();
 
-  const mat_01 = loader.load("./utils/s3e48/assets/skin_04.png");
-  const mat_02 = loader.load("./utils/s3e48/assets/skin_03.png");
+  const mat_01 = loader.load("../utils/s3e48/assets/skin_d.png");
+  const mat_02 = loader.load("../utils/s3e48/assets/skin_g.png");
 
   const shdrmat = new THREE.ShaderMaterial({
     extensions: {

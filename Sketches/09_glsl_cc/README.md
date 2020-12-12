@@ -1,1 +1,0 @@
-# GLSL Shaders from Scratch
