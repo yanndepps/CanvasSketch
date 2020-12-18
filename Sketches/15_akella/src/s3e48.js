@@ -9,6 +9,7 @@ const canvasSketch = require("canvas-sketch");
 
 const settings = {
   dimensions: [600, 600],
+  prefix: 's3e48',
   animate: true,
   context: "webgl",
   attributes: {

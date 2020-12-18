@@ -8,7 +8,6 @@
   - [generative art](Sketches/02_genart/README.md)
   - [generative design](Sketches/06_gnrtvdsgn/README.md)
   - [generated space](Sketches/07_genspace/README.md)
-  - [glsl shaders](Sketches/09_glsl_cc/README.md)
   - [labs](Sketches/01_labs/README.md)
   - [programming design systems](Sketches/16_prgdsgnsys/README.md)
   - [the nature of code](Sketches/12_tnoc/README.md)
