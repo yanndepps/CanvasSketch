@@ -5,7 +5,7 @@
   "main": "./atcq.js",
   "scripts": {},
   "keywords": [
-        "color",
+    "color",
     "quantization",
     "palette",
     "image",
