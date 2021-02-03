@@ -13,3 +13,4 @@
   - [the nature of code](Sketches/12_tnoc/README.md)
   - [webgl glsl workshop](Sketches/03_webgl/README.md)
   - [challenges](Sketches/25_challenges/README.md)
+  - [code as creative medium](Sketches/26_cacm/README.md)
