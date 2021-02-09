@@ -1,5 +1,5 @@
 /*
- * transitioning rectangles
+ * string art challenge
  */
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
