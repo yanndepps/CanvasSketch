@@ -3,8 +3,8 @@ global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
 const canvasSketch = require("canvas-sketch");
 
-import fragment from "./utils/s3e16/shaders/fragment.glsl";
-import vertex from "./utils/s3e16/shaders/vertex.glsl";
+import fragment from "../utils/s3e16/shaders/fragment.glsl";
+import vertex from "../utils/s3e16/shaders/vertex.glsl";
 
 const settings = {
   dimensions: [800, 800],

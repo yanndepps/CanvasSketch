@@ -2,20 +2,22 @@
 // @ts-ignore
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
-let palettes = require("nice-color-palettes");
+// require("three/examples/jsm/controls/OrbitControls");
+const fragment = require("../utils/s3e30/shaders/fragment.glsl");
+const vertex = require("../utils/s3e30/shaders/vertex.glsl");
+const canvasSketch = require("canvas-sketch");
+const palettes = require("nice-color-palettes");
+
 let rand = Math.floor(Math.random() * 100);
-rand = 24;
+rand = 2;
 let myColors = palettes[rand];
 let colors = myColors.map((color) => new THREE.Color(color));
-console.log(colors);
-const fragment = require("./utils/s3e30/shaders/fragment.glsl");
-const vertex = require("./utils/s3e30/shaders/vertex.glsl");
-const canvasSketch = require("canvas-sketch");
+// console.log(colors);
 
 const settings = {
   dimensions: [800, 800],
   animate: true,
-  duration: 2,
+  duration: 8,
   context: "webgl",
   attributes: {
     antialias: true
