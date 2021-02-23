@@ -1,7 +1,6 @@
 /*
  * s4e01
  * hyperbolic helicoid
- * 49.11
  */
 /* eslint-disable no-undef */
 global.THREE = require("three");
@@ -49,7 +48,7 @@ const sketch = ({ context }) => {
   function Helicoid(u, v, target) {
     let alpha = Math.PI * 2 * (u - 0.5);
     let theta = Math.PI * 2 * (v - 0.5);
-    let t = 5;
+    let t = 4;
     let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
 
     let x = Math.sinh(alpha) * Math.cos(t * theta) / bottom;
@@ -127,14 +126,20 @@ const sketch = ({ context }) => {
   mesh.castShadow = mesh.receiveShadow = true;
 
   // first ball geo
-  let geom = new THREE.IcosahedronBufferGeometry(0.3, 5);
+  let geom = new THREE.IcosahedronBufferGeometry(0.26, 5);
+  let ball_1 = new THREE.Mesh(geom, getMaterial());
+  let ball_2 = new THREE.Mesh(geom, getMaterial());
+  ball_1.castShadow = ball_1.receiveShadow = true;
+  ball_2.castShadow = ball_2.receiveShadow = true;
+  scene.add(ball_1);
+  scene.add(ball_2);
 
   // add ambient light
-  scene.add(new THREE.AmbientLight(0xffffff, 1.));
+  scene.add(new THREE.AmbientLight(0xffffff, 0.95));
   // add directional light
   let light = new THREE.DirectionalLight(0xffffff, 1.);
   light.position.x = 1;
-  light.position.y = 0;
+  light.position.y = 1;
   light.position.z = 1;
   light.castShadow = true;
   light.shadow.mapSize.width = 2048;
@@ -143,7 +148,7 @@ const sketch = ({ context }) => {
   light.shadow.camera.left = -2;
   light.shadow.camera.top = 2;
   light.shadow.camera.bottom = -2;
-  light.shadow.bias = 0.00001;
+  // light.shadow.bias = 0.000001;
   scene.add(light);
 
 
@@ -162,6 +167,14 @@ const sketch = ({ context }) => {
       if (material.userData.shader) {
         // console.log(material.userData.shader.uniforms.playhead);
         material.userData.shader.uniforms.playhead.value = playhead;
+      }
+      if (ball_1 && ball_2) {
+        let theta = playhead * 2 * Math.PI;
+        let theta_1 = playhead * 2 * Math.PI + Math.PI;
+        ball_1.position.x = 0.5 * Math.sin(theta);
+        ball_1.position.z = 0.5 * Math.cos(theta);
+        ball_2.position.x = 0.5 * Math.sin(theta_1);
+        ball_2.position.z = 0.5 * Math.cos(theta_1);
       }
       mesh.rotation.y = playhead * Math.PI * 2;
       controls.update();
