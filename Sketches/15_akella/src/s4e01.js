@@ -1,7 +1,7 @@
 /*
  * s4e01
  * hyperbolic helicoid
- * 27.38
+ * 49.11
  */
 /* eslint-disable no-undef */
 global.THREE = require("three");
@@ -9,10 +9,12 @@ require("three/examples/js/controls/OrbitControls");
 const fragment = require("../utils/s4e01/shaders/fragment.glsl");
 const vertex = require("../utils/s4e01/shaders/vertex.glsl");
 const canvasSketch = require("canvas-sketch");
+const { Uniform } = require("three");
 
 const settings = {
-  dimensions: [512, 512],
+  dimensions: [800, 800],
   animate: true,
+  duration: 4,
   context: "webgl",
   attributes: {
     antialias: true,
@@ -26,7 +28,9 @@ const sketch = ({ context }) => {
   });
 
   // WebGL background color
-  renderer.setClearColor("#1c1c1c", 1);
+  renderer.setClearColor("#000", 1);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
@@ -50,22 +54,49 @@ const sketch = ({ context }) => {
 
     let x = Math.sinh(alpha) * Math.cos(t * theta) / bottom;
     let z = Math.sinh(alpha) * Math.sin(t * theta) / bottom;
-    let y = Math.cosh(alpha) * Math.sinh(theta) / bottom;
+    let y = 1.5 * Math.cosh(alpha) * Math.sinh(theta) / bottom;
     target.set(x, y, z);
   }
 
   geometry = new THREE.ParametricGeometry(Helicoid, 100, 100);
 
   // Setup a material
-  const material = new THREE.MeshPhysicalMaterial({
-    color: 0xffffff,
-    roughness: 0,
-    metalness: 0.5,
-    clearcoat: 1,
-    clearcoatRoughness: 0.4,
-    side: THREE.DoubleSide,
-    wireframe: false
-  });
+  function getMaterial() {
+    let material = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      roughness: 0,
+      metalness: 0.5,
+      clearcoat: 1,
+      clearcoatRoughness: 0.4,
+      side: THREE.DoubleSide,
+      wireframe: false
+    });
+    material.onBeforeCompile = function(shader) {
+      // console.log(shader, 'hello');
+      shader.uniforms.playhead = { value: 0 };
+      shader.fragmentShader = `uniform float playhead;\n` + shader.fragmentShader;
+
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <logdepthbuf_fragment>",
+        `
+        float diff = dot(vec3(1.), vNormal);
+
+        vec3 a = vec3(0.5, 0.5, 0.5);
+        vec3 b = vec3(0.5, 0.5, 0.5);
+        vec3 c = vec3(1.0, 1.0, 1.0);
+        vec3 d = vec3(0.00, 0.10, 0.20);
+        vec3 cc = a + b * cos(2. * 3.141592 * (c * diff + d + playhead * 0.));
+
+        diffuseColor.rgb = vec3(diff,0.,0.);
+        diffuseColor.rgb = cc;
+        ` + '#include <logdepthbuf_fragment>'
+      );
+      material.userData.shader = shader;
+    }
+    return material;
+  }
+
+  let material = getMaterial();
 
   // Setup a shader material
   // shader material
@@ -93,14 +124,26 @@ const sketch = ({ context }) => {
 
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
+  mesh.castShadow = mesh.receiveShadow = true;
+
+  // first ball geo
+  let geom = new THREE.IcosahedronBufferGeometry(0.3, 5);
 
   // add ambient light
-  scene.add(new THREE.AmbientLight(0xcccccc, 0.5));
+  scene.add(new THREE.AmbientLight(0xffffff, 1.));
   // add directional light
   let light = new THREE.DirectionalLight(0xffffff, 1.);
   light.position.x = 1;
   light.position.y = 0;
   light.position.z = 1;
+  light.castShadow = true;
+  light.shadow.mapSize.width = 2048;
+  light.shadow.mapSize.height = 2048;
+  light.shadow.camera.right = 2;
+  light.shadow.camera.left = -2;
+  light.shadow.camera.top = 2;
+  light.shadow.camera.bottom = -2;
+  light.shadow.bias = 0.00001;
   scene.add(light);
 
 
@@ -115,7 +158,12 @@ const sketch = ({ context }) => {
       camera.updateProjectionMatrix();
     },
     // Update & render your scene here
-    render({ time }) {
+    render({ playhead }) {
+      if (material.userData.shader) {
+        // console.log(material.userData.shader.uniforms.playhead);
+        material.userData.shader.uniforms.playhead.value = playhead;
+      }
+      mesh.rotation.y = playhead * Math.PI * 2;
       controls.update();
       renderer.render(scene, camera);
     },
