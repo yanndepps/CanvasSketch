@@ -5,10 +5,7 @@
 /* eslint-disable no-undef */
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
-const fragment = require("../utils/s4e01/shaders/fragment.glsl");
-const vertex = require("../utils/s4e01/shaders/vertex.glsl");
 const canvasSketch = require("canvas-sketch");
-const { Uniform } = require("three");
 
 const settings = {
   dimensions: [800, 800],
@@ -48,7 +45,7 @@ const sketch = ({ context }) => {
   function Helicoid(u, v, target) {
     let alpha = Math.PI * 2 * (u - 0.5);
     let theta = Math.PI * 2 * (v - 0.5);
-    let t = 4;
+    let t = 3;
     let bottom = 1 + Math.cosh(alpha) * Math.cosh(theta);
 
     let x = Math.sinh(alpha) * Math.cos(t * theta) / bottom;
@@ -57,7 +54,7 @@ const sketch = ({ context }) => {
     target.set(x, y, z);
   }
 
-  geometry = new THREE.ParametricGeometry(Helicoid, 100, 100);
+  geometry = new THREE.ParametricGeometry(Helicoid, 250, 250);
 
   // Setup a material
   function getMaterial() {
@@ -70,7 +67,7 @@ const sketch = ({ context }) => {
       side: THREE.DoubleSide,
       wireframe: false
     });
-    material.onBeforeCompile = function(shader) {
+    material.onBeforeCompile = function (shader) {
       // console.log(shader, 'hello');
       shader.uniforms.playhead = { value: 0 };
       shader.fragmentShader = `uniform float playhead;\n` + shader.fragmentShader;
@@ -96,28 +93,6 @@ const sketch = ({ context }) => {
   }
 
   let material = getMaterial();
-
-  // Setup a shader material
-  // shader material
-  // const shdrmat = new THREE.ShaderMaterial({
-  //   extensions: {
-  //     derivatives: "#extension GL_OES_standard_derivatives : enable",
-  //   },
-  //   side: THREE.DoubleSide,
-  //   uniforms: {
-  //     playhead: { type: "f", value: 0.0 },
-  //     time: { type: "f", value: 0.0 },
-  //     resolution: { type: "v4", value: new THREE.Vector4() },
-  //     // colors: { type: "fv1", value: colors },
-  //     uvRate1: {
-  //       value: new THREE.Vector2(1, 1),
-  //     },
-  //   },
-  //   wireframe: true,
-  //   transparent: false,
-  //   vertexShader: vertex,
-  //   fragmentShader: fragment,
-  // });
 
   // Setup a mesh with geometry + material
 
