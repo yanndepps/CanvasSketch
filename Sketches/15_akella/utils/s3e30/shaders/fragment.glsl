@@ -1,10 +1,10 @@
 uniform float time;
 uniform float playhead;
 uniform vec4 resolution;
+uniform vec3 colors[5];
 varying vec2 vUv;
 varying vec3 vPosition;
 varying vec3 vNormal;
-uniform vec3 colors[5];
 
 float aastep(float threshold, float value) {
 
@@ -50,6 +50,7 @@ vec3 rotate(vec3 v, vec3 axis, float angle) {
 void main(){
   float pi = 3.14159265359;
   vec3 n = rotate(vNormal, vec3(0., 1., 0.), playhead*2.*pi);
-  float diff = clamp( dot(vec3(1.), n), 0., 1.0 );
+  float diff = clamp( dot(vec3(1.), n), 0., 1. );
   gl_FragColor=vec4(getColor(fract(vUv.y*3. - playhead)) + 0.3 * vec3(diff), 1.);
+  // gl_FragColor=vec4(colors[0], 1.);
 }

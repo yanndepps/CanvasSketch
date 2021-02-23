@@ -2,14 +2,13 @@
 // @ts-ignore
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
-// require("three/examples/jsm/controls/OrbitControls");
 const fragment = require("../utils/s3e30/shaders/fragment.glsl");
 const vertex = require("../utils/s3e30/shaders/vertex.glsl");
 const canvasSketch = require("canvas-sketch");
-const palettes = require("nice-color-palettes");
 
+let palettes = require("nice-color-palettes");
 let rand = Math.floor(Math.random() * 100);
-rand = 2;
+// rand = 2;
 let myColors = palettes[rand];
 let colors = myColors.map((color) => new THREE.Color(color));
 // console.log(colors);

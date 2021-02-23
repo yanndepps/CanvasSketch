@@ -15,6 +15,7 @@
   "dependencies": {
     "canvas-sketch": "^0.7.4",
     "dat.gui": "^0.7.7",
+    "load-asset": "^1.2.0",
     "nice-color-palettes": "^3.0.0",
     "three": "^0.120.1"
   },
