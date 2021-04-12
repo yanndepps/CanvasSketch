@@ -9,7 +9,7 @@ const settings = {
   dimensions: [512, 512],
   context: 'webgl',
   animate: true,
-  duration: 6,
+  duration: 8,
   fps: 30
 };
 
@@ -24,6 +24,12 @@ const frag = glsl(`
     return length(p) - .50;
   }
 
+  vec2 pMod2(inout vec2 p, vec2 size) {
+    vec2 c = floor((p + size * 0.5) / size);
+    p = mod(p + size * 0.5, size) - size * 0.5;
+    return c;
+  }
+
   vec3 cosPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
     return a + b * cos(6.28318 * (c*t+d));
   }
@@ -32,18 +38,23 @@ const frag = glsl(`
     // distance metric
     vec2 pos = vUv - 0.5;
 
-    // create our shape. scale position by 4
-    float shape = circ(pos * vec2(4.0));
+    // move everything left to right by adding sin(playhead) in the x component
+    // sin goes from -1 to 1 as time increases
+    pos = pos + vec2(sin(playhead * 0.25), 0.);
+
+    // repeat the space every 1 unit in both x and y direction
+    pMod2(pos, vec2(0.20));
+
+    // create our shape. scale position by x
+    float shape = circ(pos * vec2(64.0, 64.0));
 
     // get our color. add shape to time/playhead so the shape
     // affects how the color are chosen.
-    vec3 col = cosPalette(shape + playhead * 0.15, vec3(0.8, 0.5, 0.4), vec3(0.2, 0.4, 0.2), vec3(2.0, 1.0, 1.0), vec3(0.00, 0.25, 0.25));
+    vec3 col = cosPalette(shape + playhead * 0.8, vec3(0.5), vec3(0.5), vec3(2.0, 1.0, 1.0), vec3(0.00, 0.25, 0.25));
 
-    // shape is 1 when there is no shape and 0 when there is a shape
     col = vec3(shape) * col;
-
     // output pixel color
-    gl_FragColor = min(vec4(col, 1.0), vec4(0.9));
+    gl_FragColor = vec4(col.rgb, 1.);
   }
 `);
 
@@ -59,7 +70,7 @@ const sketch = ({ gl }) => {
     uniforms: {
       // Expose props from canvas-sketch
       // time: ({ time }) => time
-      playhead: ({ playhead }) => playhead * Math.PI * Math.PI * 2
+      playhead: ({ playhead }) => playhead * Math.PI * 2
     }
   });
 };
