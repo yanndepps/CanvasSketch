@@ -38,7 +38,7 @@ canvasSketch(() => {
   };
 
   // Return a renderer to 'draw' the p5.js content
-  return ({ time, width, height }) => {
+  return ({ width, height }) => {
     stepX = mouseX + 2;
     stepY = mouseY + 2;
 
