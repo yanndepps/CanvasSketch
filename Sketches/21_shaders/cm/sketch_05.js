@@ -1,4 +1,4 @@
-// 1.05.33
+// 1.33.15
 const canvasSketch = require('canvas-sketch');
 const createShader = require('canvas-sketch-util/shader');
 const glsl = require('glslify');
@@ -6,10 +6,10 @@ const glsl = require('glslify');
 // Setup our sketch
 const settings = {
   suffix: "b_simon_01",
-  dimensions: [512, 512],
+  dimensions: [640, 640],
   context: 'webgl',
   animate: true,
-  duration: 7,
+  duration: 8,
   fps: 24,
   attributes: {
     antialias: true
@@ -74,20 +74,58 @@ const frag = glsl(`
     return color;
   }
 
+  // shadows
+  float getShadow(float elevation, vec2 vUv) {
+    vec2 towardSun = normalize(-vUv);
+
+    const float MAX_ITERS = 5.0;
+    float shadow = 0.0;
+
+    for (float i = 1.0; i <= MAX_ITERS; i++) {
+      float towardElevation = getElevation(vUv + towardSun / MAX_ITERS * 0.01 * i);
+      if(towardElevation > elevation) {
+        // shadow += 1.0 / MAX_ITERS;
+        shadow += 0.1;
+      }
+    }
+      return shadow;
+  }
+
+  // sun
+  vec4 getSun(vec2 radialUv) {
+    vec3 innerColor = vec3(1.0);
+    vec3 outerColor = vec3(1., 1., 0.);
+
+    float strength = 1.0 - radialUv.y;
+    strength += clamp(cnoise2(vec2(radialUv.x * 10.0, time * 0.2)), 0.0, 1.0);
+
+    vec3 color = mix(outerColor, innerColor, strength * 0.5);
+
+    return vec4(color, strength);
+  }
+
   void main () {
     vec2 pos = vUv - 0.5;
     vec2 radialUv = getRadialUv(pos);
     radialUv.y -= time * 0.01;
-    radialUv.x -= time * 0.02;
+    radialUv.x -= time * 0.002;
 
     float elevation = getElevation(radialUv);
 
     vec3 color = vec3(0.0);
-    if(elevation < 0.0) {
+
+    float shadow = getShadow(elevation, radialUv);
+
+    if(elevation > 0.0) {
       color = getTerrainColor(elevation);
+      color -= shadow * 0.5;
     } else {
       color = getWaterColor(elevation);
+      color -= shadow * 0.2;
     }
+
+    vec4 sunColor = getSun(radialUv);
+    color = mix(color, sunColor.rgb, sunColor.a);
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -104,7 +142,7 @@ const sketch = ({ gl }) => {
     // Specify additional uniforms to pass down to the shaders
     uniforms: {
       // Expose props from canvas-sketch
-      time: ({ time }) => time * Math.PI
+      time: ({ time }) => time * Math.PI / 2
       // playhead: ({ playhead }) => playhead * (Math.PI * 2)
     }
   });
