@@ -5,11 +5,11 @@ const glsl = require('glslify');
 
 // Setup our sketch
 const settings = {
-  suffix: "b_simon_01",
+  // suffix: random.getSeed(),
   dimensions: [640, 640],
   context: 'webgl',
   animate: true,
-  duration: 8,
+  // duration: 8,
   fps: 24,
   attributes: {
     antialias: true
@@ -101,20 +101,23 @@ const frag = glsl(`
 
     vec3 color = mix(outerColor, innerColor, strength * 0.5);
 
-    return vec4(color, strength);
+    return vec4(color, strength * 0.8);
   }
 
   void main () {
     vec2 pos = vUv - 0.5;
-    vec2 radialUv = getRadialUv(pos);
-    radialUv.y -= time * 0.01;
-    radialUv.x -= time * 0.002;
 
-    float elevation = getElevation(radialUv);
+    vec2 radialUv = getRadialUv(pos);
+    vec2 animRadialUv = radialUv;
+
+    animRadialUv.y -= time * 0.01;
+    animRadialUv.x -= time * 0.002;
+
+    float elevation = getElevation(animRadialUv);
 
     vec3 color = vec3(0.0);
 
-    float shadow = getShadow(elevation, radialUv);
+    float shadow = getShadow(elevation, animRadialUv);
 
     if(elevation > 0.0) {
       color = getTerrainColor(elevation);
