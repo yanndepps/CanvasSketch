@@ -7,8 +7,8 @@
 global.THREE = require("three");
 require("three/examples/js/controls/OrbitControls");
 
-const fragment = require("./shaders/fragment.glsl");
-const vertex = require("./shaders/vertex.glsl");
+const fragment = require("./shaders/01/fragment.glsl");
+const vertex = require("./shaders/01/vertex.glsl");
 
 const canvasSketch = require("canvas-sketch");
 
