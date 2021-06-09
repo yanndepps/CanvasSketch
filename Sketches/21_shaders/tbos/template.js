@@ -1,24 +1,23 @@
 /*
- * curiouslyminded - session 1
- * recoded
+ * shader template
  */
 
 // Ensure ThreeJS is in global scope for the 'examples/'
 global.THREE = require("three");
+
+// Include any additional ThreeJS examples below
 require("three/examples/js/controls/OrbitControls");
 
-const fragment = require("./shaders/01/fragment.glsl");
-const vertex = require("./shaders/01/vertex.glsl");
+const fragment = require("./shaders/00/fragment.glsl");
+const vertex = require("./shaders/00/vertex.glsl");
 
 const canvasSketch = require("canvas-sketch");
 
 const settings = {
-  dimensions: [640, 640],
+  dimensions: [ 640, 640 ],
   animate: true,
-  duration: 4,
-  fps: 24,
   context: "webgl",
-  attributes : {
+  attributes: {
     antialias: true
   }
 };
@@ -74,8 +73,8 @@ const sketch = ({ context }) => {
   // draw each frame
   return {
     // Handle resize events here
-    resize({ devicePixelRatio, viewportWidth, viewportHeight }) {
-      renderer.setPixelRatio(devicePixelRatio);
+    resize({ pixelRatio, viewportWidth, viewportHeight }) {
+      renderer.setPixelRatio(pixelRatio);
       renderer.setSize(viewportWidth, viewportHeight, false);
       shdrmat.uniforms.u_resolution.value.x = viewportWidth;
       shdrmat.uniforms.u_resolution.value.y = viewportHeight;
