@@ -1,4 +1,3 @@
-// 1.33.15
 const canvasSketch = require('canvas-sketch');
 const createShader = require('canvas-sketch-util/shader');
 const glsl = require('glslify');
