@@ -7,17 +7,20 @@ const rndm = require('canvas-sketch-util/random')
 const p5 = require('p5');
 new p5();
 
+const defaultSeed = 'noise_062821';
+rndm.setSeed(defaultSeed || rndm.getRandomSeed());
+console.log('Random Seed:', rndm.getSeed());
+
 const settings = {
   p5: true,
+  hotkeys: true,
+  suffix: rndm.getSeed(),
   dimensions: [ 512, 512 ],
   animate: true,
   loop: true,
   fps: 24,
   context: '2d',
-  // duration: 4,
-  attributes: {
-    antialias: true
-  }
+  duration: 4
 };
 
 let dragging = false;

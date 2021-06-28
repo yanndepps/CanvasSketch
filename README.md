@@ -11,4 +11,4 @@
 |----------------------------------------------|----------------------------------------------|----------------------------------------------|
 | <img src="./examples/001.png" width="256" /> | <img src="./examples/002.png" width="256" /> | <img src="./examples/003.png" width="256" /> |
 | <img src="./examples/004.png" width="256" /> | <img src="./examples/005.gif" width="256" /> | <img src="./examples/006.gif" width="256" /> |
-| <img src="./examples/007.gif" width="256" /> | <img src="./examples/008.gif" width="256" /> | <img src="./examples/009.gif" width="256" /> |
+| <img src="./examples/007.gif" width="256" /> | <img src="./examples/008.png" width="256" /> | <img src="./examples/009.gif" width="256" /> |
