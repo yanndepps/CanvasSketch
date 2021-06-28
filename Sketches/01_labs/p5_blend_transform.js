@@ -3,18 +3,21 @@
 */
 
 const canvasSketch = require('canvas-sketch');
+const Random = require('canvas-sketch-util/random');
 const p5 = require('p5');
 new p5();
 
+const defaultSeed = 'modes_062821';
+Random.setSeed(defaultSeed || Random.getRandomSeed());
+console.log('Random Seed:', Random.getSeed());
+
 const settings = {
   p5: true,
+  hotkeys: true,
+  suffix: Random.getSeed(),
   dimensions: [ 512, 512 ],
   animate: false,
-  context: '2d',
-  // duration: 6,
-  attributes: {
-    antialias: true
-  }
+  context: '2d'
 };
 
 canvasSketch(() => {
