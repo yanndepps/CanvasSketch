@@ -44,7 +44,7 @@ canvasSketch(() => {
   }
   
   // DRAW
-  return ({  width, height }) => {
+  return ({ playhead, width, height }) => {
     // black background
     background(0);
     // consistent sizing regardless of portrait/landscape
@@ -66,7 +66,9 @@ canvasSketch(() => {
         spinSpeed
       } = rings[i];
 
-      const spin = millis() / 1000 * spinSpeed;
+      // const spin = millis() / 1000 * spinSpeed;
+      const spin = Math.sin(playhead * Math.PI) * spinSpeed;
+
       arc(
         width / 2,
         height / 2,
