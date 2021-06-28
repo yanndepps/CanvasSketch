@@ -4,6 +4,8 @@
 -   it exports high-resolution PNG or Giclée prints, render image sequences to GIF and MP4 loops, generates SVG files for mechanical pen plotters, automatically git hash your artworks for long-term archiving, and much more.
 -   these tools can be used on their own, or can be combined with your favourite graphics library like ThreeJS, P5.js, D3, etc.
 
+# Overview
+- old repo. my latest works can be found [here](https://github.com/yanndepps/Sketches)
 
 # Examples
 
