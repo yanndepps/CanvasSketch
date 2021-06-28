@@ -10,7 +10,7 @@ const settings = {
   context: "2d",
   // name: 'poster_02',
   prefix: "poster_02",
-  pixelsPerInch: 72,
+  pixelsPerInch: 300,
   units: "cm",
   dimensions: [21, 21],
   bleed: 1,
@@ -29,8 +29,8 @@ canvasSketch(({ width, height }) => {
   // console.log(step);
   // draw
   return () => {
-    background("#333333");
-    // background(bg);
+    // background("#333333");
+    background(bg);
     const dim = Math.min(width, height) - margin * 2;
     const step = dim / (count - 1);
     // const sz = dim * 0.0435;
