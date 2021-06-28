@@ -3,22 +3,22 @@
 */
 
 const canvasSketch = require('canvas-sketch');
-const p5 = require('p5');
 const palettes = require('nice-color-palettes/1000.json');
 const rndm = require('canvas-sketch-util/random');
+const p5 = require('p5');
 new p5();
+
+const defaultSeed = 'rect_pattern_071421';
+rndm.setSeed(defaultSeed || rndm.getRandomSeed());
+console.log('Random Seed:', rndm.getSeed());
 
 const settings = {
   p5: true,
+  hotkeys: true,
+  suffix: rndm.getSeed(),
   dimensions: [ 512, 512 ],
   animate: false,
-  loop: false,
-  fps: 24,
   context: '2d',
-  // duration: 4,
-  attributes: {
-    antialias: true
-  }
 };
 
 const rectangles = [];
