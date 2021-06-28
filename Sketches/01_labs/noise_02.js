@@ -3,7 +3,7 @@ const Random = require("canvas-sketch-util/random");
 const { linspace } = require("canvas-sketch-util/math");
 
 // You can force a specific seed by replacing this with a string value
-const defaultSeed = "";
+const defaultSeed = "noise_02_280721";
 
 // Set a random seed so we can reproduce this print later
 Random.setSeed(defaultSeed || Random.getRandomSeed());
@@ -15,7 +15,7 @@ const settings = {
   hotkeys: true,
   suffix: Random.getSeed(),
   animate: true,
-  dimensions: [2048, 2048]
+  dimensions: [512, 512]
 };
 
 const sketch = ({ width, height }) => {

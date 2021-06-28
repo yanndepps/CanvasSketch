@@ -7,6 +7,8 @@
 
 # Examples
 
-| Example screenshots                                                  |                                                                      |
-| <img src=&ldquo;./examples/001.gif&rdquo; width=&ldquo;256&rdquo; /> | <img src=&ldquo;./examples/002.gif&rdquo; width=&ldquo;256&rdquo; /> |
-| <img src=&ldquo;./examples/003.gif&rdquo; width=&ldquo;256&rdquo; /> | <img src=&ldquo;./examples/004.gif&rdquo; width=&ldquo;256&rdquo; /> |
+| Example screenshots                          |                                              |                                              |
+|----------------------------------------------|----------------------------------------------|----------------------------------------------|
+| <img src="./examples/001.png" width="256" /> | <img src="./examples/002.gif" width="256" /> | <img src="./examples/003.gif" width="256" /> |
+| <img src="./examples/004.gif" width="256" /> | <img src="./examples/005.gif" width="256" /> | <img src="./examples/006.gif" width="256" /> |
+| <img src="./examples/007.gif" width="256" /> | <img src="./examples/008.gif" width="256" /> | <img src="./examples/009.gif" width="256" /> |
