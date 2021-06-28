@@ -27,7 +27,7 @@ canvasSketch(() => {
   // SETUP
   // ...
   // DRAW
-  return ({ time, width, height }) => {
+  return ({ time, playhead, width, height }) => {
     // black background
     background(0, 0, 0, 20);
     // consistent sizing regardless of portrait/landscape
@@ -53,7 +53,8 @@ canvasSketch(() => {
 
       // get a value that ping-pongs between 0..1
       // offset by t*N to give it some variety
-      const pingPong = sin(t * 3.0 * time) * 0.5 + 0.5;
+      // const pingPong = sin(t * 3.0 * time) * 0.5 + 0.5;
+      const pingPong = sin( playhead * Math.PI * t);
 
       // compute the actual thickness
       const thickness = lerp(minThickness, maxThickness, pingPong);
